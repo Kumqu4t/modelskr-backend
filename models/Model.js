@@ -1,22 +1,23 @@
 const mongoose = require("mongoose");
 
-const recentWorkSchema = new mongoose.Schema(
-	{
-		title: String,
-		type: String,
-		link: String,
-	},
-	{ _id: false } // recentWork 안에 _id 안 붙게
-);
-
 const modelSchema = new mongoose.Schema(
 	{
 		name: { type: String, required: true },
 		gender: { type: String, enum: ["male", "female"], required: true },
-		agency: { type: String, required: true },
+		agency: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Agency",
+			required: true,
+		},
 		isFavorite: { type: Boolean, default: false },
 		tags: [String],
-		recentWork: [recentWorkSchema],
+		recentWork: [
+			{
+				title: { type: String },
+				type: { type: String },
+				link: { type: String },
+			},
+		],
 		contact: String,
 		image: String,
 		description: String,
@@ -24,5 +25,4 @@ const modelSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-module.exports = module.exports =
-	mongoose.models.Model || mongoose.model("Model", modelSchema);
+module.exports = mongoose.model("Model", modelSchema);
