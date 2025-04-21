@@ -11,7 +11,9 @@ mongoose
 app.use(express.json());
 
 const modelRoutes = require("./routes/models");
-app.use("/models", modelRoutes);
+app.use("/api/models", modelRoutes);
+const agencyRoutes = require("./routes/agencies");
+app.use("/api/agencies", agencyRoutes);
 
 app.get("/", (req, res) => {
 	res.send("Hello from server!");
