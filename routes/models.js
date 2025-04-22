@@ -14,8 +14,8 @@ const {
 router.get("/random", getRandomModels);
 router.get("/", getAllModels);
 router.get("/:id", getModelById);
-router.post("/", createModel);
-router.patch("/:id", updateModel);
+router.post("/", requireAdmin, createModel);
+router.patch("/:id", requireAdmin, updateModel);
 router.delete("/:id", requireAdmin, deleteModel);
 
 module.exports = router;
