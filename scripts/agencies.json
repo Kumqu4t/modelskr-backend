@@ -1,0 +1,114 @@
+[
+	{
+		"id": 2,
+		"name": "YG KPLUS",
+		"description": "KPLUS는 고은경 대표의 오랜 경험과 노하우를 통해, 설립 이래 수 많은 스타를 배출하며 성장해 온 패션, 모델, 엔터테인먼트 분야의 선도 기업입니다. 연기자와 패션모델 매니지먼트, 아카데미, 패션쇼 기획 제작에서 미디어 콘텐츠 제작, 브랜드 PR&마케팅 등 각 분야에서 풍부한 경험과 노하우를 지닌 전문가들로 구성되어 유기적인 협업을 통해 시너지를 창출하고 있습니다.",
+		"logo": "https://i.namu.wiki/i/fR3M478YFzz_kuJDPHupON3IKrfBlTwtBx4q5n1rOrRSOqaIwk2xenc_AkD4nwasLFX83it_Q8cIULhWYUMV9Ib2fVmH_Qxh1vfPtoz8bZXovtJZPhROc0BQgvm1wIWo_jPsl6rEdBgqh8HuKTCiug.svg",
+		"homepage": "https://ygkplus.com/"
+	},
+	{
+		"id": 3,
+		"name": "VARO",
+		"description": "VARO는 배우 및 모델을 아우르는 종합 엔터테인먼트 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "https://varocompany.kr/"
+	},
+	{
+		"id": 4,
+		"name": "GQ Model",
+		"description": "GQ Model은 트렌디한 신예 모델을 발굴하고 성장시키는 모델 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "http://gqmodel.co.kr"
+	},
+	{
+		"id": 5,
+		"name": "DSC",
+		"description": "DSC는 다양한 분야에서 활약 중인 전문 모델들이 소속된 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "http://www.dscent.co.kr/"
+	},
+	{
+		"id": 6,
+		"name": "Look Models",
+		"description": "Look Models는 감각적인 패션 모델들이 소속된 전문 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "https://www.lookmodel.co.kr/"
+	},
+	{
+		"id": 7,
+		"name": "Euphoria Models",
+		"description": "Euphoria Models는 유니크한 매력을 지닌 신인 모델 전문 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "http://www.euphoriamodels.co.kr"
+	},
+	{
+		"id": 8,
+		"name": "Studio K",
+		"description": "Studio K는 다채로운 매력을 지닌 모델과 배우들을 아우르는 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "https://www.thestudiok.co.kr/"
+	},
+	{
+		"id": 9,
+		"name": "IMI Models",
+		"description": "IMI Models는 국내외 하이패션 브랜드와 협업하는 모델 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "http://www.imimodels.com"
+	},
+	{
+		"id": 10,
+		"name": "Elite Models",
+		"description": "Elite Models는 전 세계적으로 활동하는 하이엔드 모델 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "https://www.elitemodelworld.com/"
+	},
+	{
+		"id": 11,
+		"name": "HB Entertainment",
+		"description": "HB Entertainment는 배우와 모델의 활동을 동시에 지원하는 종합 매니지먼트사입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "http://www.hbenter.com/"
+	},
+	{
+		"id": 12,
+		"name": "SI Models",
+		"description": "SI Models는 뷰티, 패션 등 다양한 영역에서 활동 중인 전문 여성 모델 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "https://simodels.kr"
+	},
+	{
+		"id": 13,
+		"name": "K Models",
+		"description": "K Models는 남성 중심의 스트리트 감성 모델들이 소속된 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "https://kmodels.co.kr"
+	},
+	{
+		"id": 14,
+		"name": "H Models",
+		"description": "H Models는 패션과 감성적인 무드를 담아내는 모델들을 위한 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "https://www.hmodels.co.kr"
+	},
+	{
+		"id": 15,
+		"name": "A Models",
+		"description": "A Models는 다양한 콘셉트를 소화하는 국내외 모델들이 소속된 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "https://www.amodels.co.kr/"
+	},
+	{
+		"id": 16,
+		"name": "Vogue Models",
+		"description": "Vogue Models는 매거진, 런웨이 등 다양한 영역에서 활동 중인 톱모델 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "https://voguestudio.co.kr"
+	},
+	{
+		"id": 17,
+		"name": "Chic Models",
+		"description": "Chic Models는 글로벌 브랜드와 협업 중인 세련된 모델 에이전시입니다.",
+		"logo": "https://via.placeholder.com/150",
+		"homepage": "https://www.chicmanagement.com.au/"
+	}
+]

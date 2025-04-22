@@ -1,0 +1,871 @@
+[
+	{
+		"id": 1,
+		"image": "https://i.namu.wiki/i/3gZIcIphY3WPM6RMeO5le2zp9VXqYZPQGvdt8bMI6pBAqnNyzRbKI1i379UMlaBpwbB9Mm5oOzZb0YjCoEoVshDgC8lKHLGphd8FdwoPQw5dcDcLI6riMSbkp6iaacrO0sKWNEO9UQ3QSajZi5_zZQ.webp",
+		"name": "김성희",
+		"description": "국제 무대에서 활약 중인 한국 모델",
+		"isFavorite": true,
+		"tags": ["런웨이", "광고"],
+		"recentWork": [
+			{
+				"title": "Vogue Korea 2024",
+				"type": "매거진",
+				"link": "https://www.vogue.co.kr/"
+			},
+			{
+				"title": "Chanel Runway SS24",
+				"type": "런웨이",
+				"link": "https://www.chanel.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "ESteem",
+		"contact": "https://www.instagram.com/_sungheekim/"
+	},
+	{
+		"id": 2,
+		"image": "https://i.namu.wiki/i/JkeLNM_5CZWVVVxR0Hd3t9Okc9Gr5rxbPw4unV9rH5T9OufZgUMU4NOiThsn9wQ8vzesUilW3af7-CQu-xLmhd7OCaPyjzYSZqcd-9yglRKivX79S-C3mM7rTYXH6BjmUJL0n_2eF_fJSQWPB2A0Uw.webp",
+		"name": "곽지영",
+		"description": "세련된 이미지로 다양한 브랜드와 협업",
+		"isFavorite": false,
+		"tags": ["광고"],
+		"recentWork": [
+			{
+				"title": "CF for Dior",
+				"type": "광고",
+				"link": "https://www.dior.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "ESteem",
+		"contact": "https://www.instagram.com/kwak_jy/"
+	},
+	{
+		"id": 3,
+		"image": "https://i.namu.wiki/i/3rbexRpWVDugtRvItzfu2qe_hwTow7JNhEUSlFSH-fJ0TTobR-CdzlTNikjTxtISn5QJFTsHNKd2WIGY1LCdVxA0wQJSzhLYA4NW5vukhV6zu2E0BT-X34zX1oc9YrEeglnKjxuJw89Se5LV8QrNDw.webp",
+		"name": "박지혜",
+		"description": "클래식한 아름다움으로 하이엔드 브랜드와 협업",
+		"isFavorite": false,
+		"tags": ["잡지"],
+		"recentWork": [],
+		"gender": "female",
+		"agency": "ESteem",
+		"contact": "https://www.instagram.com/jihyeparkjhp/"
+	},
+	{
+		"id": 4,
+		"image": "https://i.namu.wiki/i/lZYhfEPoXx05E9q0m7pStnyB5_AoaUftP8bCm5ROeCtYIgj6CqJwTEfyy6ZfSO20eYtJ4omzqAaTsQxGerPxqu-IfFNTmlfYI9mwCo21TQ4pI2CNjgIMZcZm5wZMn1qpRc16_y-H06Rl62mY3DPxZw.webp",
+		"name": "박형섭",
+		"description": "국제 패션쇼에서 활약 중인 남성 모델",
+		"isFavorite": true,
+		"tags": ["광고", "스트리트"],
+		"recentWork": [
+			{
+				"title": "Seoul Street Campaign",
+				"type": "스트리트",
+				"link": "https://example.com/seoul-street"
+			}
+		],
+		"gender": "male",
+		"agency": "YG KPLUS",
+		"contact": "https://www.instagram.com/hyeongseop"
+	},
+	{
+		"id": 5,
+		"image": "https://i.namu.wiki/i/4Q6Zu4rPoPhSY74duqqexG2cvRM7XrfKu5dk-5WiMq9H7HYeIx8d8fcgGU6WDjh5Smmz1dihtNUaNrD3wOpu75UpH0kSdhc__pXCIuBL2BSTNXapoI4PL1GF6tOu0yjKRiDMH_RcwyHnGLWFwYA8jQ.webp",
+		"name": "방태은",
+		"description": "다양한 브랜드와 협업한 남성 모델",
+		"isFavorite": true,
+		"tags": ["패션쇼", "광고"],
+		"recentWork": [
+			{
+				"title": "Seoul Fashion Week",
+				"type": "패션쇼",
+				"link": "https://example.com/sfw"
+			}
+		],
+		"gender": "male",
+		"agency": "Esteem",
+		"contact": "https://www.instagram.com/b_taeeun/"
+	},
+	{
+		"id": 6,
+		"image": "https://www.instagram.com/sola5532/profile_pic",
+		"name": "최소라",
+		"description": "하이패션 브랜드들과 협업해온 베테랑 모델",
+		"isFavorite": false,
+		"tags": ["런웨이", "하이패션"],
+		"recentWork": [],
+		"gender": "female",
+		"agency": "YG KPLUS",
+		"contact": "https://www.instagram.com/sola5532/"
+	},
+	{
+		"id": 7,
+		"image": "https://www.instagram.com/hoooooyeony/profile_pic",
+		"name": "이호연",
+		"description": "오징어 게임 이후 세계적인 인지도 확보",
+		"isFavorite": false,
+		"tags": ["연기", "광고"],
+		"recentWork": [
+			{
+				"title": "Louis Vuitton Global Ambassador",
+				"type": "광고",
+				"link": "https://www.louisvuitton.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "ESteem",
+		"contact": "https://www.instagram.com/hoooooyeony/"
+	},
+	{
+		"id": 8,
+		"image": "https://www.instagram.com/modelhanhyejin/profile_pic",
+		"name": "한혜진",
+		"description": "대한민국 대표 모델이자 방송인",
+		"isFavorite": true,
+		"tags": ["광고", "방송"],
+		"recentWork": [
+			{
+				"title": "MBC 나 혼자 산다",
+				"type": "방송",
+				"link": "https://program.imbc.com/nahonja"
+			}
+		],
+		"gender": "female",
+		"agency": "ESteem",
+		"contact": "https://www.instagram.com/modelhanhyejin/"
+	},
+	{
+		"id": 9,
+		"image": "https://www.instagram.com/soojmooj/profile_pic",
+		"name": "박수주",
+		"description": "샤넬, 알렉산더 왕 등 글로벌 브랜드 모델. 샤넬, 알렉산더 왕 등 글로벌 브랜드 모델. 샤넬, 알렉산더 왕 등 글로벌 브랜드 모델. 샤넬, 알렉산더 왕 등 글로벌 브랜드 모델. 샤넬, 알렉산더 왕 등 글로벌 브랜드 모델.",
+		"isFavorite": false,
+		"tags": ["런웨이", "글로벌"],
+		"recentWork": [
+			{
+				"title": "샤넬 캠페인",
+				"type": "광고",
+				"link": "https://www.chanel.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "Esteem",
+		"contact": "https://www.instagram.com/soojmooj/"
+	},
+	{
+		"id": 10,
+		"image": "https://www.instagram.com/hj.sss/profile_pic",
+		"name": "신현지",
+		"description": "샤넬 클로징 모델, 4대 패션위크 참여",
+		"isFavorite": true,
+		"tags": ["하이패션", "런웨이"],
+		"recentWork": [
+			{
+				"title": "Chanel Paris Runway",
+				"type": "런웨이",
+				"link": "https://www.chanel.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "Esteem",
+		"contact": "https://www.instagram.com/hj.sss/"
+	},
+	{
+		"id": 11,
+		"image": "https://www.instagram.com/yoonjujang/profile_pic",
+		"name": "장윤주",
+		"description": "대한민국 대표 여성 모델",
+		"isFavorite": false,
+		"tags": ["방송"],
+		"recentWork": [
+			{
+				"title": "온앤오프 방송",
+				"type": "방송",
+				"link": "https://tvn.cjenm.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "Esteem",
+		"contact": "https://www.instagram.com/yoonjujang/"
+	},
+	{
+		"id": 12,
+		"image": "https://www.instagram.com/hoyeon/profile_pic",
+		"name": "정호연",
+		"description": "모델 겸 배우, 오징어게임 출연",
+		"isFavorite": true,
+		"tags": ["배우", "광고"],
+		"recentWork": [
+			{
+				"title": "Louis Vuitton 글로벌 앰버서더",
+				"type": "광고",
+				"link": "https://www.louisvuitton.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "Esteem",
+		"contact": "https://www.instagram.com/hoyeon/"
+	},
+	{
+		"id": 13,
+		"image": "https://i.namu.wiki/i/iHz4saKQeH01B3oYpuGSTtaKjjtJCMVw54h_su98PHvdpOrFGAAuHhxIkaH28n3aVfUQ-2nS6h2tyMnn3d-WSDjYZDxmca6v79XC-Ln4iuQRvXkz7BJP1QkVZ1dqPc4WHW8yhvEizT7Cuzg0UuyU9g.webp",
+		"name": "변우석",
+		"description": "모델 출신 배우로 다양한 광고 모델 활동",
+		"isFavorite": false,
+		"tags": ["연기", "광고"],
+		"recentWork": [
+			{
+				"title": "Calvin Klein 캠페인",
+				"type": "광고",
+				"link": "https://www.calvinklein.com/"
+			}
+		],
+		"gender": "male",
+		"agency": "VARO",
+		"contact": "https://www.instagram.com/byunwooseok/"
+	},
+	{
+		"id": 14,
+		"image": "https://www.instagram.com/yeo_seo/profile_pic",
+		"name": "여서",
+		"description": "모던한 느낌의 하이패션 모델",
+		"isFavorite": false,
+		"tags": ["하이패션", "런웨이"],
+		"recentWork": [
+			{
+				"title": "Paris Fashion Week 2024",
+				"type": "런웨이",
+				"link": "https://www.parisfashionweek.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "A Models",
+		"contact": "https://www.instagram.com/yeo_seo/"
+	},
+	{
+		"id": 15,
+		"image": "https://www.instagram.com/minheejoon__/profile_pic",
+		"name": "조민희",
+		"description": "신예 여성 모델로 다양한 화보 활동",
+		"isFavorite": false,
+		"tags": ["신예", "화보"],
+		"recentWork": [
+			{
+				"title": "Vogue Korea 2024",
+				"type": "매거진",
+				"link": "https://www.vogue.co.kr/"
+			}
+		],
+		"gender": "female",
+		"agency": "GQ Model",
+		"contact": "https://www.instagram.com/minheejoon__/"
+	},
+	{
+		"id": 16,
+		"image": "https://www.instagram.com/jungjaewook/profile_pic",
+		"name": "정재욱",
+		"description": "남성 런웨이 및 패션모델",
+		"isFavorite": false,
+		"tags": ["런웨이", "패션"],
+		"recentWork": [
+			{
+				"title": "Seoul Fashion Week 2024",
+				"type": "패션쇼",
+				"link": "https://www.seoulfashionweek.org/"
+			}
+		],
+		"gender": "male",
+		"agency": "YG KPLUS",
+		"contact": "https://www.instagram.com/jungjaewook/"
+	},
+	{
+		"id": 17,
+		"image": "https://www.instagram.com/kimdawon/profile_pic",
+		"name": "김다원",
+		"description": "광고 모델 활동 중심으로 활약 중",
+		"isFavorite": false,
+		"tags": ["광고", "뷰티"],
+		"recentWork": [
+			{
+				"title": "Estée Lauder 광고 캠페인",
+				"type": "광고",
+				"link": "https://www.esteelauder.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "YMK",
+		"contact": "https://www.instagram.com/kimdawon/"
+	},
+	{
+		"id": 18,
+		"image": "https://www.instagram.com/modelseowoo/profile_pic",
+		"name": "서우",
+		"description": "남성 하이패션 모델",
+		"isFavorite": false,
+		"tags": ["하이패션", "런웨이"],
+		"recentWork": [
+			{
+				"title": "Milan Fashion Week 2024",
+				"type": "런웨이",
+				"link": "https://www.milanfashionweek.org/"
+			}
+		],
+		"gender": "male",
+		"agency": "DSC",
+		"contact": "https://www.instagram.com/modelseowoo/"
+	},
+	{
+		"id": 19,
+		"image": "https://www.instagram.com/k_mi_so/profile_pic",
+		"name": "김미소",
+		"description": "강렬한 카리스마의 런웨이 모델",
+		"isFavorite": false,
+		"tags": ["런웨이", "하이패션"],
+		"recentWork": [
+			{
+				"title": "Dior Runway SS24",
+				"type": "런웨이",
+				"link": "https://www.dior.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "YG KPLUS",
+		"contact": "https://www.instagram.com/k_mi_so/"
+	},
+	{
+		"id": 20,
+		"image": "https://www.instagram.com/sangwoosun/profile_pic",
+		"name": "선상우",
+		"description": "해외 런웨이에서 두각을 나타내는 남성 모델",
+		"isFavorite": false,
+		"tags": ["글로벌", "패션쇼"],
+		"recentWork": [
+			{
+				"title": "New York Fashion Week 2024",
+				"type": "패션쇼",
+				"link": "https://www.nyfashionweek.com/"
+			}
+		],
+		"gender": "male",
+		"agency": "Esteem",
+		"contact": "https://www.instagram.com/sangwoosun/"
+	},
+	{
+		"id": 21,
+		"image": "https://www.instagram.com/jessicah_o/profile_pic",
+		"name": "오제시카",
+		"description": "고급스러운 무드의 광고 모델",
+		"isFavorite": true,
+		"tags": ["광고", "뷰티"],
+		"recentWork": [
+			{
+				"title": "Gucci Campaign 2024",
+				"type": "광고",
+				"link": "https://www.gucci.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "DSC",
+		"contact": "https://www.instagram.com/jessicah_o/"
+	},
+	{
+		"id": 22,
+		"image": "https://www.instagram.com/baekkyungtae/profile_pic",
+		"name": "백경태",
+		"description": "스트리트 감성의 남성 모델",
+		"isFavorite": false,
+		"tags": ["스트리트", "화보"],
+		"recentWork": [
+			{
+				"title": "H&M Global Campaign",
+				"type": "광고",
+				"link": "https://www.hm.com/"
+			}
+		],
+		"gender": "male",
+		"agency": "Esteem",
+		"contact": "https://www.instagram.com/baekkyungtae/"
+	},
+	{
+		"id": 23,
+		"image": "https://www.instagram.com/model.jane_k/profile_pic",
+		"name": "제인김",
+		"description": "빈티지한 분위기의 패션 모델",
+		"isFavorite": false,
+		"tags": ["화보", "광고"],
+		"recentWork": [
+			{
+				"title": "Vogue Japan 2024",
+				"type": "매거진",
+				"link": "https://www.vogue.co.jp/"
+			}
+		],
+		"gender": "female",
+		"agency": "Look Models",
+		"contact": "https://www.instagram.com/model.jane_k/"
+	},
+	{
+		"id": 24,
+		"image": "https://www.instagram.com/mingyu_c/profile_pic",
+		"name": "최민규",
+		"description": "활발한 해외 활동을 이어가는 남성모델",
+		"isFavorite": false,
+		"tags": ["해외", "캣워크"],
+		"recentWork": [
+			{
+				"title": "London Fashion Week 2024",
+				"type": "런웨이",
+				"link": "https://www.londonfashionweek.co.uk/"
+			}
+		],
+		"gender": "male",
+		"agency": "YG KPLUS",
+		"contact": "https://www.instagram.com/mingyu_c/"
+	},
+	{
+		"id": 25,
+		"image": "https://www.instagram.com/lunaeunnn/profile_pic",
+		"name": "문은하",
+		"description": "감각적인 패션 화보로 주목받는 모델",
+		"isFavorite": true,
+		"tags": ["화보", "트렌디"],
+		"recentWork": [
+			{
+				"title": "Elle Korea 2024",
+				"type": "매거진",
+				"link": "https://www.elle.co.kr/"
+			}
+		],
+		"gender": "female",
+		"agency": "Euphoria Models",
+		"contact": "https://www.instagram.com/lunaeunnn/"
+	},
+	{
+		"id": 26,
+		"image": "https://www.instagram.com/jeonghwan_g/profile_pic",
+		"name": "정환",
+		"description": "차분한 이미지로 광고에 강한 모델",
+		"isFavorite": false,
+		"tags": ["광고", "뷰티"],
+		"recentWork": [
+			{
+				"title": "L'Oréal Paris 광고 캠페인",
+				"type": "광고",
+				"link": "https://www.lorealparis.com/"
+			}
+		],
+		"gender": "male",
+		"agency": "Esteem",
+		"contact": "https://www.instagram.com/jeonghwan_g/"
+	},
+	{
+		"id": 27,
+		"image": "https://www.instagram.com/jinjin.ja/profile_pic",
+		"name": "진진아",
+		"description": "감성적 무드의 여성 모델",
+		"isFavorite": false,
+		"tags": ["감성", "광고"],
+		"recentWork": [
+			{
+				"title": "Vogue Taiwan 2024",
+				"type": "매거진",
+				"link": "https://www.vogue.com.tw/"
+			}
+		],
+		"gender": "female",
+		"agency": "DSC",
+		"contact": "https://www.instagram.com/jinjin.ja/"
+	},
+	{
+		"id": 28,
+		"image": "https://www.instagram.com/mjthemodel/profile_pic",
+		"name": "김민재",
+		"description": "신선한 인상의 남성 신예 모델",
+		"isFavorite": false,
+		"tags": ["신예", "런웨이"],
+		"recentWork": [
+			{
+				"title": "Seoul Fashion Week 2024",
+				"type": "패션쇼",
+				"link": "https://www.seoulfashionweek.org/"
+			}
+		],
+		"gender": "male",
+		"agency": "Look Models",
+		"contact": "https://www.instagram.com/mjthemodel/"
+	},
+	{
+		"id": 29,
+		"image": "https://www.instagram.com/darinlee_123/profile_pic",
+		"name": "이다린",
+		"description": "패션쇼 및 화보에서 활약 중인 신예 모델",
+		"isFavorite": false,
+		"tags": ["신예", "패션쇼"],
+		"recentWork": [
+			{
+				"title": "Vogue Korea 2024",
+				"type": "매거진",
+				"link": "https://www.vogue.co.kr/"
+			}
+		],
+		"gender": "female",
+		"agency": "Studio K",
+		"contact": "https://www.instagram.com/darinlee_123/"
+	},
+	{
+		"id": 30,
+		"image": "https://www.instagram.com/jaewoo_park/profile_pic",
+		"name": "박재우",
+		"description": "매력적인 외모와 탄탄한 신체로 인기 상승 중인 남성 모델",
+		"isFavorite": false,
+		"tags": ["패션", "화보"],
+		"recentWork": [
+			{
+				"title": "H&M Global Campaign",
+				"type": "광고",
+				"link": "https://www.hm.com/"
+			}
+		],
+		"gender": "male",
+		"agency": "Studio K",
+		"contact": "https://www.instagram.com/jaewoo_park/"
+	},
+	{
+		"id": 31,
+		"image": "https://www.instagram.com/renee_kim_/profile_pic",
+		"name": "김레니",
+		"description": "광고와 하이패션 화보에서 강렬한 존재감을 보여주는 모델",
+		"isFavorite": true,
+		"tags": ["광고", "하이패션"],
+		"recentWork": [
+			{
+				"title": "Dior 광고 캠페인 2024",
+				"type": "광고",
+				"link": "https://www.dior.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "IMI Models",
+		"contact": "https://www.instagram.com/renee_kim_/"
+	},
+	{
+		"id": 32,
+		"image": "https://www.instagram.com/jin_junho/profile_pic",
+		"name": "진준호",
+		"description": "다양한 남성 패션 브랜드에서 활약 중인 모델",
+		"isFavorite": false,
+		"tags": ["스트리트", "패션쇼", "브랜드 모델"],
+		"recentWork": [
+			{
+				"title": "Calvin Klein 2024",
+				"type": "광고",
+				"link": "https://www.calvinklein.com/"
+			}
+		],
+		"gender": "male",
+		"agency": "Elite Models",
+		"contact": "https://www.instagram.com/jin_junho/"
+	},
+	{
+		"id": 33,
+		"image": "https://www.instagram.com/rozy_park/profile_pic",
+		"name": "로지 박",
+		"description": "인스타그램에서 큰 인기를 끌고 있는 여성 모델",
+		"isFavorite": true,
+		"tags": ["광고", "브랜드 모델", "신예"],
+		"recentWork": [
+			{
+				"title": "L'Oréal Paris 캠페인 2024",
+				"type": "광고",
+				"link": "https://www.lorealparis.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "Elite Models",
+		"contact": "https://www.instagram.com/rozy_park/"
+	},
+	{
+		"id": 34,
+		"image": "https://www.instagram.com/paulkim_89/profile_pic",
+		"name": "폴킴",
+		"description": "모델과 배우 활동을 동시에 하고 있는 신예",
+		"isFavorite": false,
+		"tags": ["배우", "모델"],
+		"recentWork": [],
+		"gender": "male",
+		"agency": "HB Entertainment",
+		"contact": "https://www.instagram.com/paulkim_89/"
+	},
+	{
+		"id": 35,
+		"image": "https://www.instagram.com/soohyun_lee/profile_pic",
+		"name": "이수현",
+		"description": "매력적인 외모로 다양한 광고에서 활약 중인 모델",
+		"isFavorite": true,
+		"tags": ["광고", "패션"],
+		"recentWork": [],
+		"gender": "female",
+		"agency": "SI Models",
+		"contact": "https://www.instagram.com/soohyun_lee/"
+	},
+	{
+		"id": 36,
+		"image": "https://www.instagram.com/joon_hoon/profile_pic",
+		"name": "전준훈",
+		"description": "스트리트 패션을 중심으로 활동 중인 남성 모델",
+		"isFavorite": false,
+		"tags": ["스트리트", "패션쇼", "인플루언서"],
+		"recentWork": [],
+		"gender": "male",
+		"agency": "K Models",
+		"contact": "https://www.instagram.com/joon_hoon/"
+	},
+	{
+		"id": 37,
+		"image": "https://www.instagram.com/minji_k/profile_pic",
+		"name": "민지 김",
+		"description": "신선한 느낌의 여성 모델로 패션 화보 활동 중",
+		"isFavorite": true,
+		"tags": ["패션", "화보"],
+		"recentWork": [],
+		"gender": "female",
+		"agency": "H Models",
+		"contact": "https://www.instagram.com/minji_k/"
+	},
+	{
+		"id": 38,
+		"image": "https://www.instagram.com/seungmin_lee/profile_pic",
+		"name": "이승민",
+		"description": "하이패션 런웨이 모델로 활동 중",
+		"isFavorite": false,
+		"tags": ["하이패션", "런웨이"],
+		"recentWork": [
+			{
+				"title": "Paris Fashion Week SS24",
+				"type": "런웨이",
+				"link": "https://www.parisfashionweek.com/"
+			}
+		],
+		"gender": "male",
+		"agency": "A Models",
+		"contact": "https://www.instagram.com/seungmin_lee/"
+	},
+	{
+		"id": 39,
+		"image": "https://www.instagram.com/jeonghyun_lee/profile_pic",
+		"name": "정현이",
+		"description": "화보 및 광고에서 활동하는 여성 모델",
+		"isFavorite": true,
+		"tags": ["광고", "화보"],
+		"recentWork": [
+			{
+				"title": "Chanel Beauty 광고 2024",
+				"type": "광고",
+				"link": "https://www.chanel.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "Vogue Models",
+		"contact": "https://www.instagram.com/jeonghyun_lee/"
+	},
+	{
+		"id": 40,
+		"image": "https://www.instagram.com/woo_sang/profile_pic",
+		"name": "우상",
+		"description": "남성 패션모델로 다양한 광고 모델 활동",
+		"isFavorite": false,
+		"tags": ["광고", "패션쇼"],
+		"recentWork": [
+			{
+				"title": "Louis Vuitton 광고 2024",
+				"type": "광고",
+				"link": "https://www.louisvuitton.com/"
+			}
+		],
+		"gender": "male",
+		"agency": "HB Entertainment",
+		"contact": "https://www.instagram.com/woo_sang/"
+	},
+	{
+		"id": 41,
+		"image": "https://www.instagram.com/junhee_park/profile_pic",
+		"name": "박준희",
+		"description": "여성 모델로 화보와 런웨이에서 활약 중",
+		"isFavorite": true,
+		"tags": ["화보", "하이패션"],
+		"recentWork": [
+			{
+				"title": "Seoul Fashion Week 2024",
+				"type": "패션쇼",
+				"link": "https://www.seoulfashionweek.org/"
+			}
+		],
+		"gender": "female",
+		"agency": "A Models",
+		"contact": "https://www.instagram.com/junhee_park/"
+	},
+	{
+		"id": 42,
+		"image": "https://www.instagram.com/giselle_k/profile_pic",
+		"name": "지셀",
+		"description": "국제적으로 인기 있는 한국 출신 모델",
+		"isFavorite": false,
+		"tags": ["광고"],
+		"recentWork": [
+			{
+				"title": "Gucci 캠페인 2024",
+				"type": "광고",
+				"link": "https://www.gucci.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "Elite Models",
+		"contact": "https://www.instagram.com/giselle_k/"
+	},
+	{
+		"id": 43,
+		"image": "https://www.instagram.com/steven_lee/profile_pic",
+		"name": "스티븐 리",
+		"description": "남성 런웨이 모델로 다양한 글로벌 패션쇼에서 활약",
+		"isFavorite": false,
+		"tags": ["런웨이", "패션"],
+		"recentWork": [
+			{
+				"title": "Milan Fashion Week SS24",
+				"type": "런웨이",
+				"link": "https://www.milanfashionweek.org/"
+			}
+		],
+		"gender": "male",
+		"agency": "VARO",
+		"contact": "https://www.instagram.com/steven_lee/"
+	},
+	{
+		"id": 44,
+		"image": "https://www.instagram.com/sunnykim__/profile_pic",
+		"name": "써니 김",
+		"description": "다양한 뷰티 광고와 캠페인에 출연 중인 여성 모델",
+		"isFavorite": false,
+		"tags": ["뷰티", "광고"],
+		"recentWork": [
+			{
+				"title": "Estée Lauder 캠페인 2024",
+				"type": "광고",
+				"link": "https://www.esteelauder.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "A Models",
+		"contact": "https://www.instagram.com/sunnykim__/"
+	},
+	{
+		"id": 45,
+		"image": "https://www.instagram.com/lee_jungwoo/profile_pic",
+		"name": "이정우",
+		"description": "국제적 런웨이 모델",
+		"isFavorite": false,
+		"tags": ["런웨이", "글로벌"],
+		"recentWork": [
+			{
+				"title": "Paris Fashion Week SS24",
+				"type": "런웨이",
+				"link": "https://www.parisfashionweek.com/"
+			}
+		],
+		"gender": "male",
+		"agency": "DSC",
+		"contact": "https://www.instagram.com/lee_jungwoo/"
+	},
+	{
+		"id": 46,
+		"image": "https://www.instagram.com/juliakim_/profile_pic",
+		"name": "줄리아 김",
+		"description": "하이엔드 광고와 패션쇼에서 활약하는 한국 모델",
+		"isFavorite": true,
+		"tags": ["하이패션", "광고"],
+		"recentWork": [
+			{
+				"title": "Chanel Global Campaign 2024",
+				"type": "광고",
+				"link": "https://www.chanel.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "Elite Models",
+		"contact": "https://www.instagram.com/juliakim_/"
+	},
+	{
+		"id": 47,
+		"image": "https://www.instagram.com/seojung__kim/profile_pic",
+		"name": "서정 김",
+		"description": "뛰어난 표정 연기로 유명한 여성 모델",
+		"isFavorite": false,
+		"tags": ["화보", "광고"],
+		"recentWork": [
+			{
+				"title": "L'Oréal Paris 캠페인 2024",
+				"type": "광고",
+				"link": "https://www.lorealparis.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "Vogue Models",
+		"contact": "https://www.instagram.com/seojung__kim/"
+	},
+	{
+		"id": 48,
+		"image": "https://www.instagram.com/hong_jihye/profile_pic",
+		"name": "홍지혜",
+		"description": "다양한 뷰티 광고와 캠페인에 출연 중인 모델",
+		"isFavorite": false,
+		"tags": ["뷰티", "광고"],
+		"recentWork": [
+			{
+				"title": "Shiseido 캠페인 2024",
+				"type": "광고",
+				"link": "https://www.shiseido.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "Vogue Models",
+		"contact": "https://www.instagram.com/hong_jihye/"
+	},
+	{
+		"id": 49,
+		"image": "https://www.instagram.com/jaykim_82/profile_pic",
+		"name": "제이 킴",
+		"description": "글로벌 브랜드 광고 모델로 활약 중인 남성 모델",
+		"isFavorite": false,
+		"tags": ["광고", "브랜드 모델"],
+		"recentWork": [
+			{
+				"title": "BOSS 캠페인 2024",
+				"type": "광고",
+				"link": "https://www.hugoboss.com/"
+			}
+		],
+		"gender": "male",
+		"agency": "DSC",
+		"contact": "https://www.instagram.com/jaykim_82/"
+	},
+	{
+		"id": 50,
+		"image": "https://www.instagram.com/shinee_s/profile_pic",
+		"name": "샤니 S",
+		"description": "독특한 스타일로 주목받는 여성 모델",
+		"isFavorite": false,
+		"tags": ["패션", "광고"],
+		"recentWork": [
+			{
+				"title": "Burberry SS24 Campaign",
+				"type": "광고",
+				"link": "https://www.burberry.com/"
+			}
+		],
+		"gender": "female",
+		"agency": "Elite Models",
+		"contact": "https://www.instagram.com/shinee_s/"
+	}
+]
