@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const requireAuth = require("../middleware/requireAuth");
+const requireAuth = require("../middlewares/requireAuth");
 
 const {
 	getFavorites,
