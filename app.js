@@ -17,6 +17,8 @@ const agencyRoutes = require("./routes/agencies");
 app.use("/api/agencies", agencyRoutes);
 const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
+const favoriteRoutes = require("./routes/favorites");
+app.use("/api/favorites", favoriteRoutes);
 
 app.get("/", (req, res) => {
 	res.send("Hello from server!");
