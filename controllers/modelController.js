@@ -9,7 +9,24 @@ const getAllModels = async (req, res) => {
 		if (req.query.keyword) {
 			filter.name = { $regex: req.query.keyword, $options: "i" }; // 대소문자 구분 없이 검색
 		}
-		const models = await Model.find(filter).populate("agency");
+		const models = await Model.find(
+			filter,
+			"_id name image description"
+		).populate("agency", "name");
+		res.status(200).json(models);
+	} catch (err) {
+		res.status(500).json({ error: err.message });
+	}
+};
+
+const getRandomModels = async (req, res) => {
+	try {
+		const limit = parseInt(req.query.limit) || 4;
+
+		const sampled = await Model.aggregate([{ $sample: { size: limit } }]);
+		const ids = sampled.map((doc) => doc._id);
+		const models = await Model.find({ _id: { $in: ids } }).populate("agency");
+
 		res.status(200).json(models);
 	} catch (err) {
 		res.status(500).json({ error: err.message });
@@ -68,6 +85,7 @@ const deleteModel = async (req, res) => {
 module.exports = {
 	getAllModels,
 	getModelById,
+	getRandomModels,
 	createModel,
 	updateModel,
 	deleteModel,
