@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const PORT = 8000;
+require("dotenv").config();
 
 mongoose
 	.connect("mongodb://localhost:27017/modelskr")
@@ -14,6 +15,8 @@ const modelRoutes = require("./routes/models");
 app.use("/api/models", modelRoutes);
 const agencyRoutes = require("./routes/agencies");
 app.use("/api/agencies", agencyRoutes);
+const authRoutes = require("./routes/auth");
+app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
 	res.send("Hello from server!");
