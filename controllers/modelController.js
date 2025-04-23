@@ -1,4 +1,5 @@
 const Model = require("../models/Model");
+const Photo = require("../models/Photo");
 
 const getAllModels = async (req, res) => {
 	try {
