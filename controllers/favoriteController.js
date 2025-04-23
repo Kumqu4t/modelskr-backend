@@ -1,6 +1,6 @@
 const User = require("../models/User");
 
-exports.addFavorite = async (req, res) => {
+const addFavorite = async (req, res) => {
 	try {
 		const user = req.user;
 		const modelId = req.params.id;
@@ -17,7 +17,7 @@ exports.addFavorite = async (req, res) => {
 	}
 };
 
-exports.removeFavorite = async (req, res) => {
+const removeFavorite = async (req, res) => {
 	try {
 		const user = req.user;
 		const modelId = req.params.id;
@@ -34,7 +34,7 @@ exports.removeFavorite = async (req, res) => {
 	}
 };
 
-exports.getFavorites = async (req, res) => {
+const getFavorites = async (req, res) => {
 	try {
 		const user = await User.findById(req.user._id).populate("favorites");
 		res.status(200).json(user.favorites);
@@ -42,4 +42,10 @@ exports.getFavorites = async (req, res) => {
 		console.error("즐겨찾기 조회 실패:", err);
 		res.status(500).json({ message: "서버 오류" });
 	}
+};
+
+module.exports = {
+	addFavorite,
+	removeFavorite,
+	getFavorites,
 };

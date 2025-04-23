@@ -19,6 +19,8 @@ const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
 const favoriteRoutes = require("./routes/favorites");
 app.use("/api/favorites", favoriteRoutes);
+const photoRoutes = require("./routes/photos");
+app.use("/api/photos", photoRoutes);
 
 app.get("/", (req, res) => {
 	res.send("Hello from server!");

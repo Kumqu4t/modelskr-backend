@@ -4,12 +4,12 @@ const User = require("../models/User");
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-exports.getCurrentUser = (req, res) => {
+const getCurrentUser = (req, res) => {
 	const { _id, name, email, picture } = req.user;
 	res.status(200).json({ _id, name, email, picture });
 };
 
-exports.googleLogin = async (req, res) => {
+const googleLogin = async (req, res) => {
 	const { token } = req.body;
 
 	try {
@@ -26,7 +26,6 @@ exports.googleLogin = async (req, res) => {
 			user = await User.create({ email, name, picture });
 		}
 
-		// JWT 발급
 		const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
 			expiresIn: "7d",
 		});
@@ -36,4 +35,9 @@ exports.googleLogin = async (req, res) => {
 		console.error("구글 로그인 실패:", err);
 		res.status(401).json({ message: "유효하지 않은 토큰" });
 	}
+};
+
+module.exports = {
+	getCurrentUser,
+	googleLogin,
 };

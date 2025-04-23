@@ -7,7 +7,7 @@ const getAllModels = async (req, res) => {
 		if (req.query.agency) filter.agency = req.query.agency;
 		if (req.query.gender) filter.gender = req.query.gender;
 		if (req.query.keyword) {
-			filter.name = { $regex: req.query.keyword, $options: "i" }; // 대소문자 구분 없이 검색
+			filter.name = { $regex: req.query.keyword, $options: "i" };
 		}
 		const models = await Model.find(
 			filter,
