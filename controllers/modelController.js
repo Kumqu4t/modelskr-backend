@@ -76,6 +76,12 @@ const deleteModel = async (req, res) => {
 		if (!deletedModel) {
 			return res.status(404).json({ message: "모델을 찾을 수 없습니다" });
 		}
+
+		await Photo.updateMany(
+			{ models: deletedModel._id },
+			{ $pull: { models: deletedModel._id } }
+		);
+
 		res.json({ message: "모델이 삭제되었습니다" });
 	} catch (err) {
 		res.status(400).json({ error: err.message });
