@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const modelSchema = new mongoose.Schema(
+const photographerSchema = new mongoose.Schema(
 	{
 		name: { type: String, required: true },
 		gender: { type: String, enum: ["male", "female"], required: true },
@@ -24,4 +24,4 @@ const modelSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-module.exports = mongoose.model("Model", modelSchema);
+module.exports = mongoose.model("Photographer", photographerSchema);

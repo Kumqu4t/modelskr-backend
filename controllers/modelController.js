@@ -10,10 +10,12 @@ const getAllModels = async (req, res) => {
 		if (req.query.keyword) {
 			filter.name = { $regex: req.query.keyword, $options: "i" };
 		}
+
 		const models = await Model.find(
 			filter,
-			"_id name image description agency tags"
+			"_id name image gender description agency tags"
 		).populate("agency", "name");
+
 		res.status(200).json(models);
 	} catch (err) {
 		res.status(500).json({ error: err.message });

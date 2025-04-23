@@ -1,16 +1,37 @@
 const Photo = require("../models/Photo");
 const Model = require("../models/Model");
+const Photographer = require("../models/Photographer");
 const {
 	addRecentWork,
 	removeRecentWork,
 	updateRecentWork,
 } = require("../utils/recentWorkManager");
 
+const updateRecentWorkForEntities = async (
+	model,
+	oldIds,
+	newIds,
+	{ type, title, link }
+) => {
+	const removed = oldIds.filter((id) => !newIds.includes(id));
+	const added = newIds.filter((id) => !oldIds.includes(id));
+
+	await removeRecentWork(model, removed, { type, link });
+	await addRecentWork(model, added, { type, title, link });
+	await updateRecentWork(model, newIds, { type, title, link });
+};
+
 const createPhoto = async (req, res) => {
 	try {
 		const newPhoto = await Photo.create(req.body);
 
 		await addRecentWork(Model, newPhoto.models, {
+			type: "photo",
+			title: newPhoto.title,
+			link: `/photos/${newPhoto._id}`,
+		});
+
+		await addRecentWork(Photographer, newPhoto.photographers, {
 			type: "photo",
 			title: newPhoto.title,
 			link: `/photos/${newPhoto._id}`,
@@ -24,10 +45,9 @@ const createPhoto = async (req, res) => {
 
 const getAllPhotos = async (req, res) => {
 	try {
-		const photos = await Photo.find().populate(
-			"models",
-			"_id name image description"
-		);
+		const photos = await Photo.find()
+			.populate("models", "_id name image description")
+			.populate("photographers", "_id name image description");
 		res.status(200).json(photos);
 	} catch (err) {
 		res.status(500).json({ error: "사진 목록 불러오기 실패" });
@@ -36,10 +56,9 @@ const getAllPhotos = async (req, res) => {
 
 const getPhotoById = async (req, res) => {
 	try {
-		const photo = await Photo.findById(req.params.id).populate(
-			"models",
-			"_id name image description"
-		);
+		const photo = await Photo.findById(req.params.id)
+			.populate("models", "_id name image description")
+			.populate("photographers", "_id name image description");
 		if (!photo)
 			return res.status(404).json({ error: "사진을 찾을 수 없습니다" });
 		res.status(200).json(photo);
@@ -59,6 +78,12 @@ const updatePhoto = async (req, res) => {
 		const newModels = req.body.models.map((m) =>
 			typeof m === "string" ? m : m._id
 		);
+		const oldPhotographers = existingPhoto.photographers.map((id) =>
+			id.toString()
+		);
+		const newPhotographers = req.body.photographers.map((p) =>
+			typeof p === "string" ? p : p._id
+		);
 
 		const updatedPhoto = await Photo.findByIdAndUpdate(
 			req.params.id,
@@ -66,25 +91,22 @@ const updatePhoto = async (req, res) => {
 			{ new: true }
 		);
 
-		const removedModels = oldModels.filter((id) => !newModels.includes(id));
-		const addedModels = newModels.filter((id) => !oldModels.includes(id));
-
-		await removeRecentWork(Model, removedModels, {
-			type: "photo",
-			link: `/photos/${updatedPhoto._id}`,
-		});
-
-		await addRecentWork(Model, addedModels, {
+		await updateRecentWorkForEntities(Model, oldModels, newModels, {
 			type: "photo",
 			title: updatedPhoto.title,
 			link: `/photos/${updatedPhoto._id}`,
 		});
 
-		await updateRecentWork(Model, newModels, {
-			type: "photo",
-			title: updatedPhoto.title,
-			link: `/photos/${updatedPhoto._id}`,
-		});
+		await updateRecentWorkForEntities(
+			Photographer,
+			oldPhotographers,
+			newPhotographers,
+			{
+				type: "photo",
+				title: updatedPhoto.title,
+				link: `/photos/${updatedPhoto._id}`,
+			}
+		);
 
 		res.status(200).json(updatedPhoto);
 	} catch (err) {
@@ -99,6 +121,10 @@ const deletePhoto = async (req, res) => {
 			return res.status(404).json({ error: "사진을 찾을 수 없습니다" });
 
 		await removeRecentWork(Model, deletedPhoto.models, {
+			type: "photo",
+			link: `/photos/${deletedPhoto._id}`,
+		});
+		await removeRecentWork(Photographer, deletedPhoto.photographers, {
 			type: "photo",
 			link: `/photos/${deletedPhoto._id}`,
 		});

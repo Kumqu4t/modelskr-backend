@@ -16,6 +16,12 @@ const photoSchema = new mongoose.Schema(
 				ref: "Model",
 			},
 		],
+		photographers: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Photographer",
+			},
+		],
 		description: String,
 		tags: [String],
 	},

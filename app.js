@@ -15,6 +15,8 @@ const modelRoutes = require("./routes/models");
 app.use("/api/models", modelRoutes);
 const agencyRoutes = require("./routes/agencies");
 app.use("/api/agencies", agencyRoutes);
+const photographerRoutes = require("./routes/photographers");
+app.use("/api/photographers", photographerRoutes);
 const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
 const favoriteRoutes = require("./routes/favorites");
