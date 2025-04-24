@@ -9,7 +9,7 @@ const {
 } = require("../controllers/favoriteController");
 
 router.get("/", requireAuth, getFavorites);
-router.post("/:id", requireAuth, addFavorite);
-router.delete("/:id", requireAuth, removeFavorite);
+router.post("/", requireAuth, addFavorite);
+router.delete("/", requireAuth, removeFavorite);
 
 module.exports = router;

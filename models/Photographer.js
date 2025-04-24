@@ -8,7 +8,6 @@ const photographerSchema = new mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Agency",
 		},
-		isFavorite: { type: Boolean, default: false },
 		tags: [String],
 		recentWork: [
 			{
