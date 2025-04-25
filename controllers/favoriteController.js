@@ -60,7 +60,7 @@ const removeFavorite = async (req, res) => {
 
 const getFavorites = async (req, res) => {
 	try {
-		const user = await User.findById(req.user._id).lean();
+		const user = await User.findById(req.user._id);
 		const kind = req.query.kind;
 		const kinds = kind === "all" ? ["Model", "Photographer", "Photo"] : [kind];
 
@@ -78,6 +78,8 @@ const getFavorites = async (req, res) => {
 
 			const items = await Model.find({ _id: { $in: ids } }).lean();
 
+			const validIds = new Set(items.map((i) => i._id.toString()));
+
 			const favorites = kindFavorites
 				.map((fav) => {
 					const item = items.find(
@@ -87,8 +89,15 @@ const getFavorites = async (req, res) => {
 				})
 				.filter(Boolean);
 
+			// 삭제된 즐겨찾기 제거. 현재 조회한 kind에서만.
+			user.favorites = user.favorites.filter((fav) =>
+				fav.kind !== k ? true : validIds.has(fav.item.toString())
+			);
+
 			allFavorites = allFavorites.concat(favorites);
 		}
+
+		await user.save();
 
 		console.log("불러온 즐겨찾기 목록: ", allFavorites);
 		res.status(200).json(allFavorites);

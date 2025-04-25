@@ -11,6 +11,9 @@ mongoose
 
 app.use(express.json());
 
+const cors = require("cors");
+app.use(cors());
+
 const modelRoutes = require("./routes/models");
 app.use("/api/models", modelRoutes);
 const agencyRoutes = require("./routes/agencies");
