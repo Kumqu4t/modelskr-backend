@@ -5,7 +5,7 @@ const PORT = 8000;
 require("dotenv").config();
 
 mongoose
-	.connect("mongodb://localhost:27017/modelskr")
+	.connect(process.env.MONGO_URI)
 	.then(() => console.log("MongoDB connected"))
 	.catch((err) => console.error("DB connection error:", err));
 
