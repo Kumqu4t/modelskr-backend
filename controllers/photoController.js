@@ -1,5 +1,7 @@
 const Photo = require("../models/Photo");
 const Model = require("../models/Model");
+const Redis = require("ioredis");
+const redis = new Redis(process.env.REDIS_URL);
 const Photographer = require("../models/Photographer");
 const {
 	addRecentWork,
@@ -21,33 +23,20 @@ const updateRecentWorkForEntities = async (
 	await updateRecentWork(model, newIds, { type, title, link });
 };
 
-const createPhoto = async (req, res) => {
-	try {
-		const newPhoto = await Photo.create(req.body);
-
-		await addRecentWork(Model, newPhoto.models, {
-			type: "photo",
-			title: newPhoto.title,
-			link: `/photos/${newPhoto._id}`,
-		});
-
-		await addRecentWork(Photographer, newPhoto.photographers, {
-			type: "photo",
-			title: newPhoto.title,
-			link: `/photos/${newPhoto._id}`,
-		});
-
-		res.status(201).json(newPhoto);
-	} catch (err) {
-		res.status(500).json({ error: "사진 생성 실패", details: err.message });
-	}
-};
-
 const getAllPhotos = async (req, res) => {
 	try {
+		const cacheKey = "photos";
+		const cachedData = await redis.get(cacheKey);
+		if (cachedData) {
+			return res.status(200).json(JSON.parse(cachedData));
+		}
+
 		const photos = await Photo.find()
 			.populate("models", "_id name image description")
 			.populate("photographers", "_id name image description");
+
+		redis.setex(cacheKey, 7200, JSON.stringify(photos));
+
 		res.status(200).json(photos);
 	} catch (err) {
 		res.status(500).json({ error: "사진 목록 불러오기 실패" });
@@ -64,6 +53,31 @@ const getPhotoById = async (req, res) => {
 		res.status(200).json(photo);
 	} catch (err) {
 		res.status(500).json({ error: "사진 조회 실패" });
+	}
+};
+
+const createPhoto = async (req, res) => {
+	try {
+		const newPhoto = await Photo.create(req.body);
+
+		await addRecentWork(Model, newPhoto.models, {
+			type: "photo",
+			title: newPhoto.title,
+			link: `/photos/${newPhoto._id}`,
+		});
+
+		await addRecentWork(Photographer, newPhoto.photographers, {
+			type: "photo",
+			title: newPhoto.title,
+			link: `/photos/${newPhoto._id}`,
+		});
+
+		const cacheKey = "photos";
+		redis.del(cacheKey);
+
+		res.status(201).json(newPhoto);
+	} catch (err) {
+		res.status(500).json({ error: "사진 생성 실패", details: err.message });
 	}
 };
 
@@ -108,6 +122,9 @@ const updatePhoto = async (req, res) => {
 			}
 		);
 
+		const cacheKey = "photos";
+		redis.del(cacheKey);
+
 		res.status(200).json(updatedPhoto);
 	} catch (err) {
 		res.status(500).json({ error: "사진 수정 실패", details: err.message });
@@ -128,6 +145,9 @@ const deletePhoto = async (req, res) => {
 			type: "photo",
 			link: `/photos/${deletedPhoto._id}`,
 		});
+
+		const cacheKey = "photos";
+		redis.del(cacheKey);
 
 		res.status(204).json({ message: "삭제 완료" });
 	} catch (err) {

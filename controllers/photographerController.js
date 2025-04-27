@@ -1,8 +1,15 @@
 const Photographer = require("../models/Photographer");
 const Photo = require("../models/Photo");
+const Redis = require("ioredis");
+const redis = new Redis(process.env.REDIS_URL);
 
 const getAllPhotographers = async (req, res) => {
 	try {
+		const cacheKey = "photographers";
+		const cachedData = await redis.get(cacheKey);
+		if (cachedData) {
+			return res.status(200).json(JSON.parse(cachedData));
+		}
 		const filter = {};
 
 		if (req.query.agency) filter.agency = req.query.agency;
@@ -15,6 +22,8 @@ const getAllPhotographers = async (req, res) => {
 			filter,
 			"_id name image gender description agency tags"
 		).populate("agency", "name");
+
+		redis.setex(cacheKey, 3600, JSON.stringify(photographers));
 
 		res.status(200).json(photographers);
 	} catch (err) {
@@ -57,6 +66,10 @@ const createPhotographer = async (req, res) => {
 	try {
 		const newPhotographer = new Photographer(req.body);
 		const saved = await newPhotographer.save();
+
+		const cacheKey = "photographers";
+		redis.del(cacheKey);
+
 		res.status(201).json(saved);
 	} catch (err) {
 		res.status(400).json({ error: err.message });
@@ -73,6 +86,10 @@ const updatePhotographer = async (req, res) => {
 		if (!updated) {
 			return res.status(404).json({ message: "작가를 찾을 수 없습니다" });
 		}
+
+		const cacheKey = "photographers";
+		redis.del(cacheKey);
+
 		res.json(updated);
 	} catch (err) {
 		res.status(400).json({ error: err.message });
@@ -90,6 +107,9 @@ const deletePhotographer = async (req, res) => {
 			{ photographers: deleted._id },
 			{ $pull: { photographers: deleted._id } }
 		);
+
+		const cacheKey = "photographers";
+		redis.del(cacheKey);
 
 		res.json({ message: "작가가 삭제되었습니다" });
 	} catch (err) {
