@@ -56,6 +56,14 @@ const getPhotographerById = async (req, res) => {
 		);
 		if (!photographer)
 			return res.status(404).json({ message: "작가를 찾을 수 없습니다" });
+
+		const etag = `"${photographer._id}-${photographer.updatedAt}"`;
+		res.setHeader("ETag", etag);
+		if (req.headers["if-none-match"] === etag) {
+			return res.status(304).end();
+		}
+		res.setHeader("Cache-Control", "public, max-age=604800");
+
 		res.status(200).json(photographer);
 	} catch (err) {
 		res.status(500).json({ error: err.message });

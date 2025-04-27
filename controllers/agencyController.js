@@ -29,6 +29,13 @@ const getAgencyById = async (req, res) => {
 
 		const models = await Model.find({ agency: agency._id });
 
+		const etag = `"${agency._id}-${agency.updatedAt}"`;
+		res.setHeader("ETag", etag);
+		if (req.headers["if-none-match"] === etag) {
+			return res.status(304).end();
+		}
+		res.setHeader("Cache-Control", "public, max-age=604800");
+
 		res.status(200).json({
 			...agency.toObject(),
 			models,

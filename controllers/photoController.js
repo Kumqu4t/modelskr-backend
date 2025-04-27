@@ -50,6 +50,14 @@ const getPhotoById = async (req, res) => {
 			.populate("photographers", "_id name image description");
 		if (!photo)
 			return res.status(404).json({ error: "사진을 찾을 수 없습니다" });
+
+		const etag = `"${photo._id}-${photo.updatedAt}"`;
+		res.setHeader("ETag", etag);
+		if (req.headers["if-none-match"] === etag) {
+			return res.status(304).end();
+		}
+		res.setHeader("Cache-Control", "public, max-age=604800");
+
 		res.status(200).json(photo);
 	} catch (err) {
 		res.status(500).json({ error: "사진 조회 실패" });

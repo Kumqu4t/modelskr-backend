@@ -65,6 +65,14 @@ const getModelById = async (req, res) => {
 		const model = await Model.findById(req.params.id).populate("agency");
 		if (!model)
 			return res.status(404).json({ message: "모델을 찾을 수 없습니다" });
+
+		const etag = `"${model._id}-${model.updatedAt}"`;
+		res.setHeader("ETag", etag);
+		if (req.headers["if-none-match"] === etag) {
+			return res.status(304).end();
+		}
+		res.setHeader("Cache-Control", "public, max-age=604800");
+
 		res.status(200).json(model);
 	} catch (err) {
 		res.status(500).json({ error: err.message });
@@ -98,6 +106,7 @@ const updateModel = async (req, res) => {
 
 		const cacheKey = "models";
 		redis.del(cacheKey);
+		redis.del("agencies");
 
 		res.json(updatedModel);
 	} catch (err) {
@@ -114,6 +123,7 @@ const deleteModel = async (req, res) => {
 
 		const cacheKey = "models";
 		redis.del(cacheKey);
+		redis.del("agencies");
 
 		await Photo.updateMany(
 			{ models: deletedModel._id },
