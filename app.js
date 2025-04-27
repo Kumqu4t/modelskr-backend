@@ -13,6 +13,10 @@ app.use(express.json());
 
 const cors = require("cors");
 app.use(cors());
+app.use((req, res, next) => {
+	res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+	next();
+});
 
 const modelRoutes = require("./routes/models");
 app.use("/api/models", modelRoutes);
