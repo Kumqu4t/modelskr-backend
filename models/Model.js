@@ -4,6 +4,15 @@ const modelSchema = new mongoose.Schema(
 	{
 		name: { type: String, required: true },
 		gender: { type: String, enum: ["male", "female"], required: true },
+		birthDate: { type: Date },
+		nationality: { type: String },
+		height: { type: Number },
+		measurements: {
+			chest: { type: Number },
+			waist: { type: Number },
+			hips: { type: Number },
+		},
+		shoeSize: { type: Number },
 		agency: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Agency",
