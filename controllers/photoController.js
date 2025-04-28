@@ -51,7 +51,7 @@ const getPhotoById = async (req, res) => {
 		if (!photo)
 			return res.status(404).json({ error: "사진을 찾을 수 없습니다" });
 
-		const etag = `"${photo._id}-${photo.updatedAt}"`;
+		const etag = `${photo._id}-${photo.updatedAt.getTime()}`;
 		res.setHeader("ETag", etag);
 		if (req.headers["if-none-match"] === etag) {
 			return res.status(304).end();
@@ -81,7 +81,8 @@ const createPhoto = async (req, res) => {
 		});
 
 		const cacheKey = "photos";
-		redis.del(cacheKey);
+		const allPhotos = await Photo.find();
+		redis.setex(cacheKey, 7200, JSON.stringify(allPhotos));
 
 		res.status(201).json(newPhoto);
 	} catch (err) {
@@ -131,7 +132,8 @@ const updatePhoto = async (req, res) => {
 		);
 
 		const cacheKey = "photos";
-		redis.del(cacheKey);
+		const allPhotos = await Photo.find();
+		redis.setex(cacheKey, 7200, JSON.stringify(allPhotos));
 
 		res.status(200).json(updatedPhoto);
 	} catch (err) {
@@ -155,7 +157,8 @@ const deletePhoto = async (req, res) => {
 		});
 
 		const cacheKey = "photos";
-		redis.del(cacheKey);
+		const allPhotos = await Photo.find();
+		redis.setex(cacheKey, 7200, JSON.stringify(allPhotos));
 
 		res.status(204).json({ message: "삭제 완료" });
 	} catch (err) {

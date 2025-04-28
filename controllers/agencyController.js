@@ -29,7 +29,7 @@ const getAgencyById = async (req, res) => {
 
 		const models = await Model.find({ agency: agency._id });
 
-		const etag = `"${agency._id}-${agency.updatedAt}"`;
+		const etag = `${agency._id}-${agency.updatedAt.getTime()}`;
 		res.setHeader("ETag", etag);
 		if (req.headers["if-none-match"] === etag) {
 			return res.status(304).end();
@@ -41,18 +41,19 @@ const getAgencyById = async (req, res) => {
 			models,
 		});
 	} catch (err) {
+		console.error("Error in getAgencyById:", err);
 		res.status(500).json({ error: err.message });
 	}
 };
 
 const createAgency = async (req, res) => {
-	console.log("Request body: ", req.body);
 	try {
 		const newAgency = new Agency(req.body);
 		const savedAgency = await newAgency.save();
 
 		const cacheKey = "agencies";
-		res.del(cacheKey);
+		const allAgencies = await Agency.find();
+		redis.setex(cacheKey, 3600, JSON.stringify(allAgencies));
 
 		res.status(201).json(savedAgency);
 	} catch (err) {
@@ -61,8 +62,6 @@ const createAgency = async (req, res) => {
 };
 
 const updateAgency = async (req, res) => {
-	console.log("Request params: ", req.params);
-	console.log("Request body: ", req.body);
 	try {
 		const updatedAgency = await Agency.findByIdAndUpdate(
 			req.params.id,
@@ -74,7 +73,8 @@ const updateAgency = async (req, res) => {
 		}
 
 		const cacheKey = "agencies";
-		res.del(cacheKey);
+		const allAgencies = await Agency.find();
+		redis.setex(cacheKey, 3600, JSON.stringify(allAgencies));
 
 		res.json(updatedAgency);
 	} catch (err) {
@@ -83,16 +83,15 @@ const updateAgency = async (req, res) => {
 };
 
 const deleteAgency = async (req, res) => {
-	console.log("Delete 요청 도달: ", req.params.id);
 	try {
-		console.log("Delete 요청 도달: ", req.params.id);
 		const deletedAgency = await Agency.findByIdAndDelete(req.params.id);
 		if (!deletedAgency) {
 			return res.status(404).json({ message: "에이전시를 찾을 수 없습니다" });
 		}
 
 		const cacheKey = "agencies";
-		res.del(cacheKey);
+		const allAgencies = await Agency.find();
+		redis.setex(cacheKey, 3600, JSON.stringify(allAgencies));
 
 		res.json({ message: "에이전시가 삭제되었습니다" });
 	} catch (err) {

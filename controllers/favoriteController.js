@@ -99,7 +99,7 @@ const getFavorites = async (req, res) => {
 
 		await user.save();
 
-		console.log("불러온 즐겨찾기 목록: ", allFavorites);
+		// console.log("불러온 즐겨찾기 목록: ", allFavorites);
 		res.status(200).json(allFavorites);
 	} catch (err) {
 		console.error("즐겨찾기 조회 실패:", err);

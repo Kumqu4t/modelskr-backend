@@ -57,7 +57,7 @@ const getPhotographerById = async (req, res) => {
 		if (!photographer)
 			return res.status(404).json({ message: "작가를 찾을 수 없습니다" });
 
-		const etag = `"${photographer._id}-${photographer.updatedAt}"`;
+		const etag = `${photographer._id}-${photographer.updatedAt.getTime()}`;
 		res.setHeader("ETag", etag);
 		if (req.headers["if-none-match"] === etag) {
 			return res.status(304).end();
@@ -76,7 +76,8 @@ const createPhotographer = async (req, res) => {
 		const saved = await newPhotographer.save();
 
 		const cacheKey = "photographers";
-		redis.del(cacheKey);
+		const allPhotographers = await Photographer.find();
+		redis.setex(cacheKey, 7200, JSON.stringify(allPhotographers));
 
 		res.status(201).json(saved);
 	} catch (err) {
@@ -96,7 +97,8 @@ const updatePhotographer = async (req, res) => {
 		}
 
 		const cacheKey = "photographers";
-		redis.del(cacheKey);
+		const allPhotographers = await Photographer.find();
+		redis.setex(cacheKey, 7200, JSON.stringify(allPhotographers));
 
 		res.json(updated);
 	} catch (err) {
@@ -117,7 +119,8 @@ const deletePhotographer = async (req, res) => {
 		);
 
 		const cacheKey = "photographers";
-		redis.del(cacheKey);
+		const allPhotographers = await Photographer.find();
+		redis.setex(cacheKey, 7200, JSON.stringify(allPhotographers));
 
 		res.json({ message: "작가가 삭제되었습니다" });
 	} catch (err) {

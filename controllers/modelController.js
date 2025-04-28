@@ -66,7 +66,7 @@ const getModelById = async (req, res) => {
 		if (!model)
 			return res.status(404).json({ message: "모델을 찾을 수 없습니다" });
 
-		const etag = `"${model._id}-${model.updatedAt}"`;
+		const etag = `${model._id}-${model.updatedAt.getTime()}`;
 		res.setHeader("ETag", etag);
 		if (req.headers["if-none-match"] === etag) {
 			return res.status(304).end();
@@ -85,7 +85,8 @@ const createModel = async (req, res) => {
 		const savedModel = await newModel.save();
 
 		const cacheKey = "models";
-		redis.del(cacheKey);
+		const allModels = await Model.find();
+		redis.setex(cacheKey, 7200, JSON.stringify(allModels));
 
 		res.status(201).json(savedModel);
 	} catch (err) {
@@ -105,8 +106,8 @@ const updateModel = async (req, res) => {
 		}
 
 		const cacheKey = "models";
-		redis.del(cacheKey);
-		redis.del("agencies");
+		const allModels = await Model.find();
+		redis.setex(cacheKey, 7200, JSON.stringify(allModels));
 
 		res.json(updatedModel);
 	} catch (err) {
@@ -122,8 +123,8 @@ const deleteModel = async (req, res) => {
 		}
 
 		const cacheKey = "models";
-		redis.del(cacheKey);
-		redis.del("agencies");
+		const allModels = await Model.find();
+		redis.setex(cacheKey, 7200, JSON.stringify(allModels));
 
 		await Photo.updateMany(
 			{ models: deletedModel._id },
