@@ -22,6 +22,11 @@ const photoSchema = new mongoose.Schema(
 				ref: "Photographer",
 			},
 		],
+		category: {
+			type: String,
+			enum: ["commercial", "editorial", "others"],
+			default: "others",
+		},
 		description: String,
 		tags: [String],
 	},
