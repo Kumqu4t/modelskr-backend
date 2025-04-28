@@ -46,6 +46,7 @@ const getAgencyById = async (req, res) => {
 };
 
 const createAgency = async (req, res) => {
+	console.log("Request body: ", req.body);
 	try {
 		const newAgency = new Agency(req.body);
 		const savedAgency = await newAgency.save();
@@ -60,6 +61,8 @@ const createAgency = async (req, res) => {
 };
 
 const updateAgency = async (req, res) => {
+	console.log("Request params: ", req.params);
+	console.log("Request body: ", req.body);
 	try {
 		const updatedAgency = await Agency.findByIdAndUpdate(
 			req.params.id,
@@ -80,7 +83,9 @@ const updateAgency = async (req, res) => {
 };
 
 const deleteAgency = async (req, res) => {
+	console.log("Delete 요청 도달: ", req.params.id);
 	try {
+		console.log("Delete 요청 도달: ", req.params.id);
 		const deletedAgency = await Agency.findByIdAndDelete(req.params.id);
 		if (!deletedAgency) {
 			return res.status(404).json({ message: "에이전시를 찾을 수 없습니다" });
