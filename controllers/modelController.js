@@ -96,20 +96,20 @@ const createModel = async (req, res) => {
 
 const updateModel = async (req, res) => {
 	try {
-		const updatedModel = await Model.findByIdAndUpdate(
-			req.params.id,
-			req.body,
-			{ new: true }
-		);
-		if (!updatedModel) {
+		const model = await Model.findById(req.params.id);
+		if (!model) {
 			return res.status(404).json({ message: "모델을 찾을 수 없습니다" });
 		}
+
+		Object.assign(model, req.body);
+
+		await model.save();
 
 		const cacheKey = "models";
 		const allModels = await Model.find();
 		redis.setex(cacheKey, 7200, JSON.stringify(allModels));
 
-		res.json(updatedModel);
+		res.json(model);
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}

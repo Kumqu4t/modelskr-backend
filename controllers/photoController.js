@@ -104,35 +104,29 @@ const createPhoto = async (req, res) => {
 
 const updatePhoto = async (req, res) => {
 	try {
-		const existingPhoto = await Photo.findById(req.params.id);
-		if (!existingPhoto) {
+		const photo = await Photo.findById(req.params.id);
+		if (!photo) {
 			return res.status(404).json({ error: "사진을 찾을 수 없습니다" });
 		}
 
-		const oldCategory = existingPhoto.category;
-		const newCategory = req.body.category;
+		const oldCategory = photo.category;
+		const oldModels = photo.models.map((id) => id.toString());
+		const oldPhotographers = photo.photographers.map((id) => id.toString());
 
-		const oldModels = existingPhoto.models.map((id) => id.toString());
 		const newModels = req.body.models.map((m) =>
 			typeof m === "string" ? m : m._id
-		);
-		const oldPhotographers = existingPhoto.photographers.map((id) =>
-			id.toString()
 		);
 		const newPhotographers = req.body.photographers.map((p) =>
 			typeof p === "string" ? p : p._id
 		);
 
-		const updatedPhoto = await Photo.findByIdAndUpdate(
-			req.params.id,
-			req.body,
-			{ new: true }
-		);
+		Object.assign(photo, req.body);
+		await photo.save();
 
 		await updateRecentWorkForEntities(Model, oldModels, newModels, {
 			type: "photo",
-			title: updatedPhoto.title,
-			link: `/photos/${updatedPhoto._id}`,
+			title: photo.title,
+			link: `/photos/${photo._id}`,
 		});
 
 		await updateRecentWorkForEntities(
@@ -141,12 +135,12 @@ const updatePhoto = async (req, res) => {
 			newPhotographers,
 			{
 				type: "photo",
-				title: updatedPhoto.title,
-				link: `/photos/${updatedPhoto._id}`,
+				title: photo.title,
+				link: `/photos/${photo._id}`,
 			}
 		);
 
-		if (oldCategory !== newCategory) {
+		if (oldCategory !== photo.category) {
 			const oldCategoryPhotos = await Photo.find({ category: oldCategory });
 			redis.setex(
 				`photos:${oldCategory}`,
@@ -154,15 +148,15 @@ const updatePhoto = async (req, res) => {
 				JSON.stringify(oldCategoryPhotos)
 			);
 
-			const newCategoryPhotos = await Photo.find({ category: newCategory });
+			const newCategoryPhotos = await Photo.find({ category: photo.category });
 			redis.setex(
-				`photos:${newCategory}`,
+				`photos:${photo.category}`,
 				7200,
 				JSON.stringify(newCategoryPhotos)
 			);
 		}
 
-		res.status(200).json(updatedPhoto);
+		res.status(200).json(photo);
 	} catch (err) {
 		res.status(500).json({ error: "사진 수정 실패", details: err.message });
 	}

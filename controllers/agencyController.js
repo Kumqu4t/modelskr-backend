@@ -63,20 +63,19 @@ const createAgency = async (req, res) => {
 
 const updateAgency = async (req, res) => {
 	try {
-		const updatedAgency = await Agency.findByIdAndUpdate(
-			req.params.id,
-			req.body,
-			{ new: true }
-		);
-		if (!updatedAgency) {
+		const agency = await Agency.findById(req.params.id);
+		if (!agency) {
 			return res.status(404).json({ message: "에이전시를 찾을 수 없습니다" });
 		}
+
+		Object.assign(agency, req.body);
+		await agency.save();
 
 		const cacheKey = "agencies";
 		const allAgencies = await Agency.find();
 		redis.setex(cacheKey, 3600, JSON.stringify(allAgencies));
 
-		res.json(updatedAgency);
+		res.json(agency);
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}

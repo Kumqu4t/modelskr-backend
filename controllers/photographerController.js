@@ -87,20 +87,19 @@ const createPhotographer = async (req, res) => {
 
 const updatePhotographer = async (req, res) => {
 	try {
-		const updated = await Photographer.findByIdAndUpdate(
-			req.params.id,
-			req.body,
-			{ new: true }
-		);
-		if (!updated) {
+		const photographer = await Photographer.findById(req.params.id);
+		if (!photographer) {
 			return res.status(404).json({ message: "작가를 찾을 수 없습니다" });
 		}
+
+		Object.assign(photographer, req.body);
+		await photographer.save();
 
 		const cacheKey = "photographers";
 		const allPhotographers = await Photographer.find();
 		redis.setex(cacheKey, 7200, JSON.stringify(allPhotographers));
 
-		res.json(updated);
+		res.json(photographer);
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}
