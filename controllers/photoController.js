@@ -25,12 +25,14 @@ const updateRecentWorkForEntities = async (
 
 const getAllPhotos = async (req, res) => {
 	try {
-		const { category, keyword } = req.query;
+		const { category, keyword, fields } = req.query;
 		console.log("Received category:", category, "keyword:", keyword);
 
 		const filter = {};
 		if (category && category !== "all") filter.category = category;
 		if (keyword) filter.title = { $regex: keyword, $options: "i" };
+
+		const selectFields = fields ? fields.split(",").join(" ") : "";
 
 		const cacheKey = keyword
 			? null
@@ -46,7 +48,7 @@ const getAllPhotos = async (req, res) => {
 			}
 		}
 
-		const photos = await Photo.find(filter)
+		const photos = await Photo.find(filter, selectFields)
 			.populate("models", "_id name image description")
 			.populate("photographers", "_id name image description");
 

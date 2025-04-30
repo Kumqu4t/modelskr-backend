@@ -5,12 +5,14 @@ const redis = new Redis(process.env.REDIS_URL);
 
 const getAllAgencies = async (req, res) => {
 	try {
-		const { keyword } = req.query;
+		const { keyword, fields } = req.query;
 
 		const filter = {};
 		if (keyword) {
 			filter.name = { $regex: keyword, $options: "i" };
 		}
+
+		const selectFields = fields ? fields.split(",").join(" ") : "";
 
 		const cacheKey = keyword ? null : "agencies";
 		if (cacheKey) {
@@ -20,7 +22,7 @@ const getAllAgencies = async (req, res) => {
 			}
 		}
 
-		const agencies = await Agency.find(filter);
+		const agencies = await Agency.find(filter, selectFields);
 		if (cacheKey) {
 			redis.setex(cacheKey, 7200, JSON.stringify(agencies));
 		}

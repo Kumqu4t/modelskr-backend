@@ -6,7 +6,7 @@ const redis = new Redis(process.env.REDIS_URL);
 
 const getAllModels = async (req, res) => {
 	try {
-		const { agency, gender, keyword } = req.query;
+		const { agency, gender, keyword, fields } = req.query;
 
 		const filter = {};
 		if (gender) filter.gender = gender;
@@ -44,6 +44,8 @@ const getAllModels = async (req, res) => {
 		}-tags:${tagKey}`;
 		const cacheKey = keyword ? null : `models:${filterKey}`;
 
+		const selectFields = fields ? fields.split(",").join(" ") : "";
+
 		if (cacheKey) {
 			const cachedData = await redis.get(cacheKey);
 			if (cachedData) {
@@ -53,10 +55,10 @@ const getAllModels = async (req, res) => {
 			console.log("Cache miss for models, fetching from DB");
 		}
 
-		const models = await Model.find(
-			filter,
-			"_id name image gender description agency tags"
-		).populate("agency", "name");
+		const models = await Model.find(filter, selectFields).populate(
+			"agency",
+			"name"
+		);
 
 		if (cacheKey) {
 			redis.setex(cacheKey, 7200, JSON.stringify(models));

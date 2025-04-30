@@ -6,7 +6,7 @@ const redis = new Redis(process.env.REDIS_URL);
 
 const getAllPhotographers = async (req, res) => {
 	try {
-		const { agency, gender, keyword } = req.query;
+		const { agency, gender, keyword, fields } = req.query;
 
 		const filter = {};
 		if (agency) {
@@ -43,6 +43,8 @@ const getAllPhotographers = async (req, res) => {
 		}-tags:${tagKey}`;
 		const cacheKey = keyword ? null : `photographers:${filterKey}`;
 
+		const selectFields = fields ? fields.split(",").join(" ") : "";
+
 		if (cacheKey) {
 			const cachedData = await redis.get(cacheKey);
 			if (cachedData) {
@@ -52,7 +54,7 @@ const getAllPhotographers = async (req, res) => {
 
 		const photographers = await Photographer.find(
 			filter,
-			"_id name image gender description agency tags"
+			selectFields
 		).populate("agency", "name");
 
 		if (cacheKey) {
