@@ -1,21 +1,53 @@
 const Photographer = require("../models/Photographer");
 const Photo = require("../models/Photo");
+const Agency = require("../models/Agency");
 const Redis = require("ioredis");
 const redis = new Redis(process.env.REDIS_URL);
 
 const getAllPhotographers = async (req, res) => {
 	try {
-		const cacheKey = "photographers";
-		const cachedData = await redis.get(cacheKey);
-		if (cachedData) {
-			return res.status(200).json(JSON.parse(cachedData));
-		}
-		const filter = {};
+		const { agency, gender, keyword } = req.query;
 
-		if (req.query.agency) filter.agency = req.query.agency;
-		if (req.query.gender) filter.gender = req.query.gender;
-		if (req.query.keyword) {
-			filter.name = { $regex: req.query.keyword, $options: "i" };
+		const filter = {};
+		if (agency) {
+			if (agency === "무소속") {
+				filter.agency = null;
+			} else {
+				const foundAgency = await Agency.findOne({ name: agency });
+				if (!foundAgency) {
+					return res
+						.status(404)
+						.json({ error: "해당 에이전시를 찾을 수 없습니다." });
+				}
+				filter.agency = foundAgency._id;
+			}
+		}
+		if (gender) filter.gender = gender;
+		if (keyword) {
+			filter.name = { $regex: keyword, $options: "i" };
+		}
+
+		const tagArray = req.query.tag
+			? Array.isArray(req.query.tag)
+				? req.query.tag
+				: [req.query.tag]
+			: [];
+
+		if (tagArray.length > 0) {
+			filter.tags = { $all: tagArray };
+		}
+
+		const tagKey = tagArray.length > 0 ? tagArray.join(",") : "none";
+		const filterKey = `gender:${gender || "all"}-agency:${
+			agency || "all"
+		}-tags:${tagKey}`;
+		const cacheKey = keyword ? null : `photographers:${filterKey}`;
+
+		if (cacheKey) {
+			const cachedData = await redis.get(cacheKey);
+			if (cachedData) {
+				return res.status(200).json(JSON.parse(cachedData));
+			}
 		}
 
 		const photographers = await Photographer.find(
@@ -23,7 +55,9 @@ const getAllPhotographers = async (req, res) => {
 			"_id name image gender description agency tags"
 		).populate("agency", "name");
 
-		redis.setex(cacheKey, 3600, JSON.stringify(photographers));
+		if (cacheKey) {
+			redis.setex(cacheKey, 7200, JSON.stringify(photographers));
+		}
 
 		res.status(200).json(photographers);
 	} catch (err) {

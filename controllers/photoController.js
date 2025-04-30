@@ -25,24 +25,36 @@ const updateRecentWorkForEntities = async (
 
 const getAllPhotos = async (req, res) => {
 	try {
-		const category = req.query.category;
-		console.log("Received category: ", category);
+		const { category, keyword } = req.query;
+		console.log("Received category:", category, "keyword:", keyword);
 
-		const filter = category !== "all" ? { category } : {};
+		const filter = {};
+		if (category && category !== "all") filter.category = category;
+		if (keyword) filter.title = { $regex: keyword, $options: "i" };
 
-		const cacheKey = category !== "all" ? `photos:${category}` : "photos";
-		const cachedData = await redis.get(cacheKey);
+		const cacheKey = keyword
+			? null
+			: category && category !== "all"
+			? `photos:${category}`
+			: "photos";
 
-		if (cachedData) {
-			console.log("Cache hit!");
-			return res.status(200).json(JSON.parse(cachedData));
+		if (cacheKey) {
+			const cachedData = await redis.get(cacheKey);
+			if (cachedData) {
+				console.log("Cache hit!");
+				return res.status(200).json(JSON.parse(cachedData));
+			}
 		}
+
 		const photos = await Photo.find(filter)
 			.populate("models", "_id name image description")
 			.populate("photographers", "_id name image description");
 
-		console.log("Photos: ", photos);
-		redis.setex(cacheKey, 7200, JSON.stringify(photos));
+		console.log("Photos:", photos);
+
+		if (cacheKey) {
+			redis.setex(cacheKey, 7200, JSON.stringify(photos));
+		}
 
 		res.status(200).json(photos);
 	} catch (err) {

@@ -5,14 +5,25 @@ const redis = new Redis(process.env.REDIS_URL);
 
 const getAllAgencies = async (req, res) => {
 	try {
-		const cacheKey = "agencies";
-		const cachedData = await redis.get(cacheKey);
-		if (cachedData) {
-			return res.status(200).json(JSON.parse(cachedData));
+		const { keyword } = req.query;
+
+		const filter = {};
+		if (keyword) {
+			filter.name = { $regex: keyword, $options: "i" };
 		}
 
-		const agencies = await Agency.find();
-		redis.setex(cacheKey, 3600, JSON.stringify(agencies));
+		const cacheKey = keyword ? null : "agencies";
+		if (cacheKey) {
+			const cachedData = await redis.get(cacheKey);
+			if (cachedData) {
+				return res.status(200).json(JSON.parse(cachedData));
+			}
+		}
+
+		const agencies = await Agency.find(filter);
+		if (cacheKey) {
+			redis.setex(cacheKey, 7200, JSON.stringify(agencies));
+		}
 
 		res.status(200).json(agencies);
 	} catch (err) {
@@ -53,7 +64,7 @@ const createAgency = async (req, res) => {
 
 		const cacheKey = "agencies";
 		const allAgencies = await Agency.find();
-		redis.setex(cacheKey, 3600, JSON.stringify(allAgencies));
+		redis.setex(cacheKey, 7200, JSON.stringify(allAgencies));
 
 		res.status(201).json(savedAgency);
 	} catch (err) {
@@ -73,7 +84,7 @@ const updateAgency = async (req, res) => {
 
 		const cacheKey = "agencies";
 		const allAgencies = await Agency.find();
-		redis.setex(cacheKey, 3600, JSON.stringify(allAgencies));
+		redis.setex(cacheKey, 7200, JSON.stringify(allAgencies));
 
 		res.json(agency);
 	} catch (err) {
@@ -90,7 +101,7 @@ const deleteAgency = async (req, res) => {
 
 		const cacheKey = "agencies";
 		const allAgencies = await Agency.find();
-		redis.setex(cacheKey, 3600, JSON.stringify(allAgencies));
+		redis.setex(cacheKey, 7200, JSON.stringify(allAgencies));
 
 		res.json({ message: "에이전시가 삭제되었습니다" });
 	} catch (err) {

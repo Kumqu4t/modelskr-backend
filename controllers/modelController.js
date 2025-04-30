@@ -1,24 +1,56 @@
 const Model = require("../models/Model");
+const Agency = require("../models/Agency");
 const Photo = require("../models/Photo");
 const Redis = require("ioredis");
 const redis = new Redis(process.env.REDIS_URL);
 
 const getAllModels = async (req, res) => {
 	try {
-		const cacheKey = "models";
-		const cachedData = await redis.get(cacheKey);
+		const { agency, gender, keyword } = req.query;
 
-		if (cachedData) {
-			console.log("Cache hit for models");
-			return res.status(200).json(JSON.parse(cachedData));
+		const filter = {};
+		if (gender) filter.gender = gender;
+		if (keyword) {
+			filter.name = { $regex: keyword, $options: "i" };
 		}
 
-		console.log("Cache miss for models, fetching from DB");
-		const filter = {};
-		if (req.query.agency) filter.agency = req.query.agency;
-		if (req.query.gender) filter.gender = req.query.gender;
-		if (req.query.keyword) {
-			filter.name = { $regex: req.query.keyword, $options: "i" };
+		const tagArray = req.query.tag
+			? Array.isArray(req.query.tag)
+				? req.query.tag
+				: [req.query.tag]
+			: [];
+
+		if (tagArray.length > 0) {
+			filter.tags = { $all: tagArray };
+		}
+
+		if (agency) {
+			if (agency === "무소속") {
+				filter.agency = null;
+			} else {
+				const foundAgency = await Agency.findOne({ name: agency });
+				if (!foundAgency) {
+					return res
+						.status(404)
+						.json({ error: "해당 에이전시를 찾을 수 없습니다." });
+				}
+				filter.agency = foundAgency._id;
+			}
+		}
+
+		const tagKey = tagArray.length > 0 ? tagArray.join(",") : "none";
+		const filterKey = `gender:${gender || "all"}-agency:${
+			agency || "all"
+		}-tags:${tagKey}`;
+		const cacheKey = keyword ? null : `models:${filterKey}`;
+
+		if (cacheKey) {
+			const cachedData = await redis.get(cacheKey);
+			if (cachedData) {
+				console.log("Cache hit for models");
+				return res.status(200).json(JSON.parse(cachedData));
+			}
+			console.log("Cache miss for models, fetching from DB");
 		}
 
 		const models = await Model.find(
@@ -26,7 +58,9 @@ const getAllModels = async (req, res) => {
 			"_id name image gender description agency tags"
 		).populate("agency", "name");
 
-		redis.setex(cacheKey, 7200, JSON.stringify(models));
+		if (cacheKey) {
+			redis.setex(cacheKey, 7200, JSON.stringify(models));
+		}
 
 		res.status(200).json(models);
 	} catch (err) {
