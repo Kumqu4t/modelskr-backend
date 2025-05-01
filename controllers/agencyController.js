@@ -105,7 +105,7 @@ const deleteAgency = async (req, res) => {
 		const allAgencies = await Agency.find();
 		redis.setex(cacheKey, 7200, JSON.stringify(allAgencies));
 
-		res.json({ message: "에이전시가 삭제되었습니다" });
+		res.status(200).json({ message: "에이전시가 삭제되었습니다" });
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}

@@ -167,7 +167,7 @@ const deleteModel = async (req, res) => {
 			{ $pull: { models: deletedModel._id } }
 		);
 
-		res.json({ message: "모델이 삭제되었습니다" });
+		res.status(200).json({ message: "모델이 삭제되었습니다" });
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}

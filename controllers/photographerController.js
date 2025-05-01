@@ -157,7 +157,7 @@ const deletePhotographer = async (req, res) => {
 		const allPhotographers = await Photographer.find();
 		redis.setex(cacheKey, 7200, JSON.stringify(allPhotographers));
 
-		res.json({ message: "작가가 삭제되었습니다" });
+		res.status(200).json({ message: "작가가 삭제되었습니다" });
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}
