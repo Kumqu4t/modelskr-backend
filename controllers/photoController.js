@@ -101,14 +101,18 @@ const createPhoto = async (req, res) => {
 			link: `/photos/${newPhoto._id}`,
 		});
 
-		const allPhotos = await Photo.find();
-		redis.setex("photos", 7200, JSON.stringify(allPhotos));
-		const categoryPhotos = await Photo.find({ category: newPhoto.category });
-		redis.setex(
-			`photos:${newPhoto.category}`,
-			7200,
-			JSON.stringify(categoryPhotos)
-		);
+		const keys = await redis.keys("photos*");
+		if (keys.length > 0) {
+			await redis.del(keys);
+		}
+		const modelKeys = await redis.keys("models*");
+		if (modelKeys.length > 0) {
+			await redis.del(modelKeys);
+		}
+		const agencyKeys = await redis.keys("agency*");
+		if (agencyKeys.length > 0) {
+			await redis.del(agencyKeys);
+		}
 
 		res.status(201).json(newPhoto);
 	} catch (err) {
@@ -123,7 +127,6 @@ const updatePhoto = async (req, res) => {
 			return res.status(404).json({ error: "사진을 찾을 수 없습니다" });
 		}
 
-		const oldCategory = photo.category;
 		const oldModels = photo.models.map((id) => id.toString());
 		const oldPhotographers = photo.photographers.map((id) => id.toString());
 
@@ -154,20 +157,17 @@ const updatePhoto = async (req, res) => {
 			}
 		);
 
-		if (oldCategory !== photo.category) {
-			const oldCategoryPhotos = await Photo.find({ category: oldCategory });
-			redis.setex(
-				`photos:${oldCategory}`,
-				7200,
-				JSON.stringify(oldCategoryPhotos)
-			);
-
-			const newCategoryPhotos = await Photo.find({ category: photo.category });
-			redis.setex(
-				`photos:${photo.category}`,
-				7200,
-				JSON.stringify(newCategoryPhotos)
-			);
+		const keys = await redis.keys("photos*");
+		if (keys.length > 0) {
+			await redis.del(keys);
+		}
+		const modelKeys = await redis.keys("models*");
+		if (modelKeys.length > 0) {
+			await redis.del(modelKeys);
+		}
+		const agencyKeys = await redis.keys("agency*");
+		if (agencyKeys.length > 0) {
+			await redis.del(agencyKeys);
 		}
 
 		res.status(200).json(photo);
@@ -191,16 +191,18 @@ const deletePhoto = async (req, res) => {
 			link: `/photos/${deletedPhoto._id}`,
 		});
 
-		const allPhotos = await Photo.find();
-		redis.setex("photos", 7200, JSON.stringify(allPhotos));
-		const categoryPhotos = await Photo.find({
-			category: deletedPhoto.category,
-		});
-		redis.setex(
-			`photos:${deletedPhoto.category}`,
-			7200,
-			JSON.stringify(categoryPhotos)
-		);
+		const keys = await redis.keys("photos*");
+		if (keys.length > 0) {
+			await redis.del(keys);
+		}
+		const modelKeys = await redis.keys("models*");
+		if (modelKeys.length > 0) {
+			await redis.del(modelKeys);
+		}
+		const agencyKeys = await redis.keys("agency*");
+		if (agencyKeys.length > 0) {
+			await redis.del(agencyKeys);
+		}
 
 		res.status(200).json({ message: "삭제 완료" });
 	} catch (err) {

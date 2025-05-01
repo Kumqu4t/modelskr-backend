@@ -64,9 +64,10 @@ const createAgency = async (req, res) => {
 		const newAgency = new Agency(req.body);
 		const savedAgency = await newAgency.save();
 
-		const cacheKey = "agencies";
-		const allAgencies = await Agency.find();
-		redis.setex(cacheKey, 7200, JSON.stringify(allAgencies));
+		const keys = await redis.keys("agencies*");
+		if (keys.length > 0) {
+			await redis.del(keys);
+		}
 
 		res.status(201).json(savedAgency);
 	} catch (err) {
@@ -84,9 +85,10 @@ const updateAgency = async (req, res) => {
 		Object.assign(agency, req.body);
 		await agency.save();
 
-		const cacheKey = "agencies";
-		const allAgencies = await Agency.find();
-		redis.setex(cacheKey, 7200, JSON.stringify(allAgencies));
+		const keys = await redis.keys("agencies*");
+		if (keys.length > 0) {
+			await redis.del(keys);
+		}
 
 		res.json(agency);
 	} catch (err) {
@@ -101,9 +103,10 @@ const deleteAgency = async (req, res) => {
 			return res.status(404).json({ message: "에이전시를 찾을 수 없습니다" });
 		}
 
-		const cacheKey = "agencies";
-		const allAgencies = await Agency.find();
-		redis.setex(cacheKey, 7200, JSON.stringify(allAgencies));
+		const keys = await redis.keys("agencies*");
+		if (keys.length > 0) {
+			await redis.del(keys);
+		}
 
 		res.status(200).json({ message: "에이전시가 삭제되었습니다" });
 	} catch (err) {

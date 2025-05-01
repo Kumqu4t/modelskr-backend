@@ -120,9 +120,14 @@ const createModel = async (req, res) => {
 		const newModel = new Model(req.body);
 		const savedModel = await newModel.save();
 
-		const cacheKey = "models";
-		const allModels = await Model.find();
-		redis.setex(cacheKey, 7200, JSON.stringify(allModels));
+		const keys = await redis.keys("models*");
+		if (keys.length > 0) {
+			await redis.del(keys);
+		}
+		const agencyKeys = await redis.keys("agency*");
+		if (agencyKeys.length > 0) {
+			await redis.del(agencyKeys);
+		}
 
 		res.status(201).json(savedModel);
 	} catch (err) {
@@ -141,9 +146,14 @@ const updateModel = async (req, res) => {
 
 		await model.save();
 
-		const cacheKey = "models";
-		const allModels = await Model.find();
-		redis.setex(cacheKey, 7200, JSON.stringify(allModels));
+		const keys = await redis.keys("models*");
+		if (keys.length > 0) {
+			await redis.del(keys);
+		}
+		const agencyKeys = await redis.keys("agency*");
+		if (agencyKeys.length > 0) {
+			await redis.del(agencyKeys);
+		}
 
 		res.json(model);
 	} catch (err) {
@@ -158,9 +168,18 @@ const deleteModel = async (req, res) => {
 			return res.status(404).json({ message: "모델을 찾을 수 없습니다" });
 		}
 
-		const cacheKey = "models";
-		const allModels = await Model.find();
-		redis.setex(cacheKey, 7200, JSON.stringify(allModels));
+		const keys = await redis.keys("models*");
+		if (keys.length > 0) {
+			await redis.del(keys);
+		}
+		const agencyKeys = await redis.keys("agency*");
+		if (agencyKeys.length > 0) {
+			await redis.del(agencyKeys);
+		}
+		const photoKeys = await redis.keys("photos*");
+		if (photoKeys.length > 0) {
+			await redis.del(photoKeys);
+		}
 
 		await Photo.updateMany(
 			{ models: deletedModel._id },

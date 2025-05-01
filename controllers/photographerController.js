@@ -111,9 +111,14 @@ const createPhotographer = async (req, res) => {
 		const newPhotographer = new Photographer(req.body);
 		const saved = await newPhotographer.save();
 
-		const cacheKey = "photographers";
-		const allPhotographers = await Photographer.find();
-		redis.setex(cacheKey, 7200, JSON.stringify(allPhotographers));
+		const keys = await redis.keys("photographers*");
+		if (keys.length > 0) {
+			await redis.del(keys);
+		}
+		const agencyKeys = await redis.keys("agency*");
+		if (agencyKeys.length > 0) {
+			await redis.del(agencyKeys);
+		}
 
 		res.status(201).json(saved);
 	} catch (err) {
@@ -131,9 +136,14 @@ const updatePhotographer = async (req, res) => {
 		Object.assign(photographer, req.body);
 		await photographer.save();
 
-		const cacheKey = "photographers";
-		const allPhotographers = await Photographer.find();
-		redis.setex(cacheKey, 7200, JSON.stringify(allPhotographers));
+		const keys = await redis.keys("photographers*");
+		if (keys.length > 0) {
+			await redis.del(keys);
+		}
+		const agencyKeys = await redis.keys("agency*");
+		if (agencyKeys.length > 0) {
+			await redis.del(agencyKeys);
+		}
 
 		res.json(photographer);
 	} catch (err) {
@@ -153,9 +163,18 @@ const deletePhotographer = async (req, res) => {
 			{ $pull: { photographers: deleted._id } }
 		);
 
-		const cacheKey = "photographers";
-		const allPhotographers = await Photographer.find();
-		redis.setex(cacheKey, 7200, JSON.stringify(allPhotographers));
+		const keys = await redis.keys("photographers*");
+		if (keys.length > 0) {
+			await redis.del(keys);
+		}
+		const agencyKeys = await redis.keys("agency*");
+		if (agencyKeys.length > 0) {
+			await redis.del(agencyKeys);
+		}
+		const photoKeys = await redis.keys("photos*");
+		if (photoKeys.length > 0) {
+			await redis.del(photoKeys);
+		}
 
 		res.status(200).json({ message: "작가가 삭제되었습니다" });
 	} catch (err) {
