@@ -27,6 +27,8 @@ const favoriteRoutes = require("./routes/favorites");
 app.use("/api/favorites", favoriteRoutes);
 const photoRoutes = require("./routes/photos");
 app.use("/api/photos", photoRoutes);
+const adminRoutes = require("./routes/admin");
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
 	res.send("Hello from server!");

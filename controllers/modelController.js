@@ -1,8 +1,7 @@
 const Model = require("../models/Model");
 const Agency = require("../models/Agency");
 const Photo = require("../models/Photo");
-const Redis = require("ioredis");
-const redis = new Redis(process.env.REDIS_URL);
+const redis = require("../config/redis");
 
 const getAllModels = async (req, res) => {
 	try {

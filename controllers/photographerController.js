@@ -1,8 +1,7 @@
 const Photographer = require("../models/Photographer");
 const Photo = require("../models/Photo");
 const Agency = require("../models/Agency");
-const Redis = require("ioredis");
-const redis = new Redis(process.env.REDIS_URL);
+const redis = require("../config/redis");
 
 const getAllPhotographers = async (req, res) => {
 	try {
