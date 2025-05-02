@@ -4,7 +4,7 @@ const photographerSchema = new mongoose.Schema(
 	{
 		name: { type: String, required: true },
 		gender: { type: String, enum: ["male", "female"], required: true },
-		birthDate: { type: Date },
+		birthDate: { type: Number },
 		nationality: { type: String },
 		agency: {
 			type: mongoose.Schema.Types.ObjectId,
