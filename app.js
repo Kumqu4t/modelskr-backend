@@ -29,11 +29,12 @@ const photoRoutes = require("./routes/photos");
 app.use("/api/photos", photoRoutes);
 const adminRoutes = require("./routes/admin");
 app.use("/api/admin", adminRoutes);
+const uploadRoutes = require("./routes/upload");
+app.use("/api/upload", uploadRoutes);
 
 app.get("/", (req, res) => {
 	res.send("Hello from server!");
 });
-
 app.listen(PORT, () => {
 	console.log(`Server is running on http://localhost:${PORT}`);
 });
