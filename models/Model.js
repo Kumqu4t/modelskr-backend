@@ -26,7 +26,12 @@ const modelSchema = new mongoose.Schema(
 			},
 		],
 		contact: String,
-		image: String,
+		image: {
+			type: {
+				url: { type: String, required: true },
+				public_id: { type: String, required: true },
+			},
+		},
 		description: String,
 	},
 	{ timestamps: true }
