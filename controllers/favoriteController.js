@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../models/User");
 require("../models/Model");
-require("../models/Photographer");
+require("../models/Person");
 require("../models/Photo");
 
 const addFavorite = async (req, res) => {
@@ -62,7 +62,7 @@ const getFavorites = async (req, res) => {
 	try {
 		const user = await User.findById(req.user._id);
 		const kind = req.query.kind;
-		const kinds = kind === "all" ? ["Model", "Photographer", "Photo"] : [kind];
+		const kinds = kind === "all" ? ["Model", "Person", "Photo"] : [kind];
 
 		let allFavorites = [];
 
@@ -73,7 +73,7 @@ const getFavorites = async (req, res) => {
 
 			let Model;
 			if (k === "Model") Model = require("../models/Model");
-			if (k === "Photographer") Model = require("../models/Photographer");
+			if (k === "Person") Model = require("../models/Person");
 			if (k === "Photo") Model = require("../models/Photo");
 
 			const items = await Model.find({ _id: { $in: ids } }).lean();

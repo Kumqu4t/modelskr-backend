@@ -1,15 +1,16 @@
 const mongoose = require("mongoose");
 
-const photographerSchema = new mongoose.Schema(
+const personSchema = new mongoose.Schema(
 	{
 		name: { type: String, required: true },
-		gender: { type: String, enum: ["male", "female"], required: true },
+		gender: { type: String, enum: ["male", "female"] },
+		role: {
+			type: String,
+			enum: ["photographer", "hair", "makeup"],
+			required: true,
+		},
 		birthDate: { type: Number },
 		nationality: { type: String },
-		agency: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Agency",
-		},
 		tags: [String],
 		recentWork: [
 			{
@@ -21,8 +22,8 @@ const photographerSchema = new mongoose.Schema(
 		contact: String,
 		image: {
 			type: {
-				url: { type: String, required: true },
-				public_id: { type: String, required: true },
+				url: { type: String },
+				public_id: { type: String },
 			},
 		},
 		description: String,
@@ -30,4 +31,4 @@ const photographerSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-module.exports = mongoose.model("Photographer", photographerSchema);
+module.exports = mongoose.model("Person", personSchema);

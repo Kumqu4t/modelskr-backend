@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
 			kind: {
 				type: String,
 				required: true,
-				enum: ["Model", "Photographer", "Photo"],
+				enum: ["Model", "Person", "Photo"],
 			},
 		},
 	],

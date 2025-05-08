@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const modelSchema = new mongoose.Schema(
 	{
 		name: { type: String, required: true },
-		gender: { type: String, enum: ["male", "female"], required: true },
+		gender: { type: String, enum: ["male", "female"] },
 		birthYear: { type: Number },
 		nationality: { type: String },
 		height: { type: Number },

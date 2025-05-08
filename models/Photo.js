@@ -24,10 +24,10 @@ const photoSchema = new mongoose.Schema(
 				ref: "Model",
 			},
 		],
-		photographers: [
+		people: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: "Photographer",
+				ref: "Person",
 			},
 		],
 		category: {

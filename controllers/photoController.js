@@ -1,7 +1,7 @@
 const Photo = require("../models/Photo");
 const Model = require("../models/Model");
 const redis = require("../config/redis");
-const Photographer = require("../models/Photographer");
+const Person = require("../models/Person");
 const {
 	addRecentWork,
 	removeRecentWork,
@@ -48,8 +48,8 @@ const getAllPhotos = async (req, res) => {
 		}
 
 		const photos = await Photo.find(filter, selectFields)
-			.populate("models", "_id name image description")
-			.populate("photographers", "_id name image description");
+			.populate("models", "_id name image")
+			.populate("people", "_id name image");
 
 		console.log("Photos:", photos);
 
@@ -67,7 +67,7 @@ const getPhotoById = async (req, res) => {
 	try {
 		const photo = await Photo.findById(req.params.id)
 			.populate("models", "_id name image description")
-			.populate("photographers", "_id name image description");
+			.populate("people", "_id name image description");
 		if (!photo)
 			return res.status(404).json({ error: "사진을 찾을 수 없습니다" });
 
@@ -87,6 +87,7 @@ const getPhotoById = async (req, res) => {
 const createPhoto = async (req, res) => {
 	try {
 		const newPhoto = await Photo.create(req.body);
+		console.log("New photo:", newPhoto);
 
 		await addRecentWork(Model, newPhoto.models, {
 			type: "photo",
@@ -94,7 +95,7 @@ const createPhoto = async (req, res) => {
 			link: `/photos/${newPhoto._id}`,
 		});
 
-		await addRecentWork(Photographer, newPhoto.photographers, {
+		await addRecentWork(Person, newPhoto.people, {
 			type: "photo",
 			title: newPhoto.title,
 			link: `/photos/${newPhoto._id}`,
@@ -107,6 +108,10 @@ const createPhoto = async (req, res) => {
 		const modelKeys = await redis.keys("models*");
 		if (modelKeys.length > 0) {
 			await redis.del(modelKeys);
+		}
+		const peopleKeys = await redis.keys("people*");
+		if (peopleKeys.length > 0) {
+			await redis.del(peopleKeys);
 		}
 		const agencyKeys = await redis.keys("agency*");
 		if (agencyKeys.length > 0) {
@@ -127,12 +132,12 @@ const updatePhoto = async (req, res) => {
 		}
 
 		const oldModels = photo.models.map((id) => id.toString());
-		const oldPhotographers = photo.photographers.map((id) => id.toString());
+		const oldPeople = photo.people.map((id) => id.toString());
 
 		const newModels = req.body.models.map((m) =>
 			typeof m === "string" ? m : m._id
 		);
-		const newPhotographers = req.body.photographers.map((p) =>
+		const newPeople = req.body.people.map((p) =>
 			typeof p === "string" ? p : p._id
 		);
 
@@ -145,16 +150,11 @@ const updatePhoto = async (req, res) => {
 			link: `/photos/${photo._id}`,
 		});
 
-		await updateRecentWorkForEntities(
-			Photographer,
-			oldPhotographers,
-			newPhotographers,
-			{
-				type: "photo",
-				title: photo.title,
-				link: `/photos/${photo._id}`,
-			}
-		);
+		await updateRecentWorkForEntities(Person, oldPeople, newPeople, {
+			type: "photo",
+			title: photo.title,
+			link: `/photos/${photo._id}`,
+		});
 
 		const keys = await redis.keys("photos*");
 		if (keys.length > 0) {
@@ -163,6 +163,10 @@ const updatePhoto = async (req, res) => {
 		const modelKeys = await redis.keys("models*");
 		if (modelKeys.length > 0) {
 			await redis.del(modelKeys);
+		}
+		const peopleKeys = await redis.keys("people*");
+		if (peopleKeys.length > 0) {
+			await redis.del(peopleKeys);
 		}
 		const agencyKeys = await redis.keys("agency*");
 		if (agencyKeys.length > 0) {
@@ -185,7 +189,7 @@ const deletePhoto = async (req, res) => {
 			type: "photo",
 			link: `/photos/${deletedPhoto._id}`,
 		});
-		await removeRecentWork(Photographer, deletedPhoto.photographers, {
+		await removeRecentWork(Person, deletedPhoto.people, {
 			type: "photo",
 			link: `/photos/${deletedPhoto._id}`,
 		});
@@ -197,6 +201,10 @@ const deletePhoto = async (req, res) => {
 		const modelKeys = await redis.keys("models*");
 		if (modelKeys.length > 0) {
 			await redis.del(modelKeys);
+		}
+		const peopleKeys = await redis.keys("people*");
+		if (peopleKeys.length > 0) {
+			await redis.del(peopleKeys);
 		}
 		const agencyKeys = await redis.keys("agency*");
 		if (agencyKeys.length > 0) {
