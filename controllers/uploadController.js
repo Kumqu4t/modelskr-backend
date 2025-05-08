@@ -2,6 +2,7 @@ const getCloudinary = require("../config/cloudinary");
 const cloudinary = getCloudinary();
 
 const uploadImage = async (req, res) => {
+	console.log("Cloudinary config loaded with:", cloudinary.config());
 	try {
 		console.log("uploadImage route hit");
 		console.log("req.file:", req.file);
