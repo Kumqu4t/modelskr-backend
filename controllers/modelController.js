@@ -13,16 +13,6 @@ const getAllModels = async (req, res) => {
 			filter.name = { $regex: keyword, $options: "i" };
 		}
 
-		const tagArray = req.query.tag
-			? Array.isArray(req.query.tag)
-				? req.query.tag
-				: [req.query.tag]
-			: [];
-
-		if (tagArray.length > 0) {
-			filter.tags = { $all: tagArray };
-		}
-
 		if (agency) {
 			if (agency === "무소속") {
 				filter.agency = null;
@@ -37,10 +27,7 @@ const getAllModels = async (req, res) => {
 			}
 		}
 
-		const tagKey = tagArray.length > 0 ? tagArray.join(",") : "none";
-		const filterKey = `gender:${gender || "all"}-agency:${
-			agency || "all"
-		}-tags:${tagKey}`;
+		const filterKey = `gender:${gender || "all"}-agency:${agency || "all"}`;
 		const cacheKey = keyword ? null : `models:${filterKey}`;
 
 		const selectFields = fields ? fields.split(",").join(" ") : "";

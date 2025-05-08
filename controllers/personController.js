@@ -13,20 +13,7 @@ const getAllPeople = async (req, res) => {
 			filter.name = { $regex: keyword, $options: "i" };
 		}
 
-		const tagArray = req.query.tag
-			? Array.isArray(req.query.tag)
-				? req.query.tag
-				: [req.query.tag]
-			: [];
-
-		if (tagArray.length > 0) {
-			filter.tags = { $all: tagArray };
-		}
-
-		const tagKey = tagArray.length > 0 ? tagArray.join(",") : "none";
-		const filterKey = `gender:${gender || "all"}-role:${
-			role || "all"
-		}-tags:${tagKey}`;
+		const filterKey = `gender:${gender || "all"}-role:${role || "all"}`;
 		const cacheKey = keyword ? null : `people:${filterKey}`;
 
 		const selectFields = fields ? fields.split(",").join(" ") : "";
