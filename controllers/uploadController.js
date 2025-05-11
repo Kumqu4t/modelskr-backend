@@ -2,11 +2,7 @@ const getCloudinary = require("../config/cloudinary");
 const cloudinary = getCloudinary();
 
 const uploadImage = async (req, res) => {
-	console.log("Cloudinary config loaded with:", cloudinary.config());
 	try {
-		console.log("uploadImage route hit");
-		console.log("req.file:", req.file);
-
 		if (!req.file) {
 			return res.status(400).json({ message: "No file uploaded" });
 		}
@@ -15,7 +11,6 @@ const uploadImage = async (req, res) => {
 			{ folder: "modelskr" },
 			(error, result) => {
 				if (error) {
-					console.error("Cloudinary upload error:", error);
 					return res
 						.status(500)
 						.json({ message: "Upload to Cloudinary failed", error });
@@ -28,7 +23,6 @@ const uploadImage = async (req, res) => {
 
 		uploadStream.end(req.file.buffer);
 	} catch (err) {
-		console.error("Server error in uploadImage:", err);
 		res.status(500).json({ message: "Server error", error: err });
 	}
 };

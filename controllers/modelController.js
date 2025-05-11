@@ -5,12 +5,18 @@ const redis = require("../config/redis");
 
 const getAllModels = async (req, res) => {
 	try {
-		const { agency, gender, keyword, fields } = req.query;
+		const { agency, gender, keyword, fields, height } = req.query;
 
 		const filter = {};
 		if (gender) filter.gender = gender;
 		if (keyword) {
 			filter.name = { $regex: keyword, $options: "i" };
+		}
+		if (height) {
+			const [min, max] = height.split("-").map(Number);
+			if (!isNaN(min) && !isNaN(max)) {
+				filter.height = { $gte: min, $lte: max };
+			}
 		}
 
 		if (agency) {
@@ -27,7 +33,9 @@ const getAllModels = async (req, res) => {
 			}
 		}
 
-		const filterKey = `gender:${gender || "all"}-agency:${agency || "all"}`;
+		const filterKey = `gender:${gender || "all"}-agency:${
+			agency || "all"
+		}-height:${height || "all"}`;
 		const cacheKey = keyword ? null : `models:${filterKey}`;
 
 		const selectFields = fields ? fields.split(",").join(" ") : "";
