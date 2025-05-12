@@ -2,6 +2,7 @@ const Photo = require("../models/Photo");
 const Model = require("../models/Model");
 const redis = require("../config/redis");
 const Person = require("../models/Person");
+const paginateQuery = require("../utils/paginateQuery");
 const {
 	addRecentWork,
 	removeRecentWork,
@@ -24,8 +25,7 @@ const updateRecentWorkForEntities = async (
 
 const getAllPhotos = async (req, res) => {
 	try {
-		const { category, keyword, fields } = req.query;
-		console.log("Received category:", category, "keyword:", keyword);
+		const { category, page, limit, keyword, fields } = req.query;
 
 		const filter = {};
 		if (category && category !== "all") filter.category = category;
@@ -36,8 +36,8 @@ const getAllPhotos = async (req, res) => {
 		const cacheKey = keyword
 			? null
 			: category && category !== "all"
-			? `photos:${category}`
-			: "photos";
+			? `photos:${category}-page:${page}`
+			: `photos-page:${page}`;
 
 		if (cacheKey) {
 			const cachedData = await redis.get(cacheKey);
@@ -47,17 +47,23 @@ const getAllPhotos = async (req, res) => {
 			}
 		}
 
-		const photos = await Photo.find(filter, selectFields)
+		const { query, countQuery } = paginateQuery({
+			model: Photo,
+			filter,
+			page,
+			limit,
+			fields: selectFields,
+		});
+		query
 			.populate("models", "_id name image")
 			.populate("people", "_id name image");
-
-		console.log("Photos:", photos);
+		const [photos, totalCount] = await Promise.all([query, countQuery]);
 
 		if (cacheKey) {
-			redis.setex(cacheKey, 7200, JSON.stringify(photos));
+			redis.setex(cacheKey, 7200, JSON.stringify({ photos, totalCount }));
 		}
 
-		res.status(200).json(photos);
+		res.status(200).json({ photos, totalCount });
 	} catch (err) {
 		res.status(500).json({ error: "사진 목록 불러오기 실패" });
 	}

@@ -2,10 +2,11 @@ const Model = require("../models/Model");
 const Agency = require("../models/Agency");
 const Photo = require("../models/Photo");
 const redis = require("../config/redis");
+const paginateQuery = require("../utils/paginateQuery");
 
 const getAllModels = async (req, res) => {
 	try {
-		const { agency, gender, keyword, fields, height } = req.query;
+		const { gender, agency, height, page, limit, keyword, fields } = req.query;
 
 		const filter = {};
 		if (gender) filter.gender = gender;
@@ -35,7 +36,7 @@ const getAllModels = async (req, res) => {
 
 		const filterKey = `gender:${gender || "all"}-agency:${
 			agency || "all"
-		}-height:${height || "all"}`;
+		}-height:${height || "all"}-page:${page}`;
 		const cacheKey = keyword ? null : `models:${filterKey}`;
 
 		const selectFields = fields ? fields.split(",").join(" ") : "";
@@ -49,16 +50,21 @@ const getAllModels = async (req, res) => {
 			console.log("Cache miss for models, fetching from DB");
 		}
 
-		const models = await Model.find(filter, selectFields).populate(
-			"agency",
-			"name"
-		);
+		const { query, countQuery } = paginateQuery({
+			model: Model,
+			filter,
+			page,
+			limit,
+			fields: selectFields,
+		});
+		query.populate("agency", "name");
+		const [models, totalCount] = await Promise.all([query, countQuery]);
 
 		if (cacheKey) {
-			redis.setex(cacheKey, 7200, JSON.stringify(models));
+			redis.setex(cacheKey, 7200, JSON.stringify({ models, totalCount }));
 		}
 
-		res.status(200).json(models);
+		res.status(200).json({ models, totalCount });
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}

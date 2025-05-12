@@ -1,10 +1,11 @@
 const Agency = require("../models/Agency");
 const Model = require("../models/Model");
 const redis = require("../config/redis");
+const paginateQuery = require("../utils/paginateQuery");
 
 const getAllAgencies = async (req, res) => {
 	try {
-		const { keyword, fields } = req.query;
+		const { keyword, fields, page, limit } = req.query;
 
 		const filter = {};
 		if (keyword) {
@@ -13,7 +14,7 @@ const getAllAgencies = async (req, res) => {
 
 		const selectFields = fields ? fields.split(",").join(" ") : "";
 
-		const cacheKey = keyword ? null : "agencies";
+		const cacheKey = keyword ? null : `agencies-page:${page}`;
 		if (cacheKey) {
 			const cachedData = await redis.get(cacheKey);
 			if (cachedData) {
@@ -21,12 +22,19 @@ const getAllAgencies = async (req, res) => {
 			}
 		}
 
-		const agencies = await Agency.find(filter, selectFields);
+		const { query, countQuery } = paginateQuery({
+			model: Agency,
+			filter,
+			page,
+			limit,
+			fields: selectFields,
+		});
+		const [agencies, totalCount] = await Promise.all([query, countQuery]);
 		if (cacheKey) {
-			redis.setex(cacheKey, 7200, JSON.stringify(agencies));
+			redis.setex(cacheKey, 7200, JSON.stringify({ agencies, totalCount }));
 		}
 
-		res.status(200).json(agencies);
+		res.status(200).json({ agencies, totalCount });
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}

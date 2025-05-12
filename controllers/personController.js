@@ -1,10 +1,11 @@
 const Person = require("../models/Person");
 const Photo = require("../models/Photo");
 const redis = require("../config/redis");
+const paginateQuery = require("../utils/paginateQuery");
 
 const getAllPeople = async (req, res) => {
 	try {
-		const { gender, keyword, fields, role } = req.query;
+		const { gender, role, page, limit, keyword, fields } = req.query;
 
 		const filter = {};
 		if (gender) filter.gender = gender;
@@ -13,7 +14,9 @@ const getAllPeople = async (req, res) => {
 			filter.name = { $regex: keyword, $options: "i" };
 		}
 
-		const filterKey = `gender:${gender || "all"}-role:${role || "all"}`;
+		const filterKey = `gender:${gender || "all"}-role:${
+			role || "all"
+		}-page:${page}`;
 		const cacheKey = keyword ? null : `people:${filterKey}`;
 
 		const selectFields = fields ? fields.split(",").join(" ") : "";
@@ -25,13 +28,20 @@ const getAllPeople = async (req, res) => {
 			}
 		}
 
-		const people = await Person.find(filter, selectFields).populate("name");
+		const { query, countQuery } = paginateQuery({
+			model: Person,
+			filter,
+			page,
+			limit,
+			fields: selectFields,
+		});
+		const [people, totalCount] = await Promise.all([query, countQuery]);
 
 		if (cacheKey) {
-			redis.setex(cacheKey, 7200, JSON.stringify(people));
+			redis.setex(cacheKey, 7200, JSON.stringify({ people, totalCount }));
 		}
 
-		res.status(200).json(people);
+		res.status(200).json({ people, totalCount });
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
