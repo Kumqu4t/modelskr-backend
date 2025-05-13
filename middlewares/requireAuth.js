@@ -21,7 +21,7 @@ const requireAuth = async (req, res, next) => {
 		next();
 	} catch (err) {
 		console.error("인증 실패:", err);
-		res.status(401).json({ message: "인증에 실패했습니다." });
+		res.status(401).json({ message: err.message || "인증에 실패했습니다." });
 	}
 };
 
