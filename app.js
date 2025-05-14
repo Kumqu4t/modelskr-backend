@@ -15,6 +15,18 @@ app.use((req, res, next) => {
 	next();
 });
 
+const helmet = require("helmet");
+app.use(
+	helmet.contentSecurityPolicy({
+		directives: {
+			defaultSrc: ["'self'"],
+			scriptSrc: ["'self'", "'unsafe-inline'"],
+			styleSrc: ["'self'", "'unsafe-inline'"],
+			imgSrc: ["'self'", "https://res.cloudinary.com"],
+		},
+	})
+);
+
 const modelRoutes = require("./routes/models");
 app.use("/api/models", modelRoutes);
 const agencyRoutes = require("./routes/agencies");
