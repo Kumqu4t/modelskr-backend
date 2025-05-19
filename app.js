@@ -44,6 +44,10 @@ app.use(
 	})
 );
 
+// 방문자 count
+const trackVisit = require("./middlewares/visitTracker");
+app.use(trackVisit);
+
 const modelRoutes = require("./routes/models");
 app.use("/api/models", modelRoutes);
 const agencyRoutes = require("./routes/agencies");
