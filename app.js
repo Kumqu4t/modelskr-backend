@@ -9,12 +9,29 @@ connectDB();
 app.use(express.json());
 
 const cors = require("cors");
-app.use(cors());
+const allowedOrigins = process.env.FRONTEND_URLS.split(",");
+app.use(
+	cors({
+		origin: function (origin, callback) {
+			// !origin(개발 도구 요청) 허용
+			if (!origin || allowedOrigins.includes(origin)) {
+				callback(null, true);
+			} else {
+				console.error(` CORS 차단된 origin: ${origin}`);
+				callback(new Error("Not allowed by CORS"));
+			}
+		},
+	})
+);
+
+// COOP, COEP 설정 (Lighthouse 보안 점검)
 app.use((req, res, next) => {
-	res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+	res.setHeader("Cross-Origin-Opener-Policy", "same-origin"); // COOP
+	res.setHeader("Cross-Origin-Embedder-Policy", "require-corp"); // COEP
 	next();
 });
 
+// CSP 설정 (Lighthouse 보안 점검)
 const helmet = require("helmet");
 app.use(
 	helmet.contentSecurityPolicy({
