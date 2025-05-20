@@ -1,11 +1,12 @@
 const Person = require("../models/Person");
 const Photo = require("../models/Photo");
+const Agency = require("../models/Agency");
 const redis = require("../config/redis");
 const paginateQuery = require("../utils/paginateQuery");
 
 const getAllPeople = async (req, res) => {
 	try {
-		const { gender, role, page, limit, keyword, fields } = req.query;
+		const { gender, role, page, limit, keyword, fields, agency } = req.query;
 
 		const filter = {};
 		if (gender) filter.gender = gender;
@@ -13,9 +14,22 @@ const getAllPeople = async (req, res) => {
 		if (keyword) {
 			filter.name = { $regex: keyword, $options: "i" };
 		}
+		if (agency) {
+			if (agency === "무소속") {
+				filter.agency = null;
+			} else {
+				const foundAgency = await Agency.findOne({ name: agency });
+				if (!foundAgency) {
+					return res
+						.status(404)
+						.json({ error: "해당 에이전시를 찾을 수 없습니다." });
+				}
+				filter.agency = foundAgency._id;
+			}
+		}
 
-		const filterKey = `gender:${gender || "all"}-role:${
-			role || "all"
+		const filterKey = `gender:${gender || "all"}-role:${role || "all"}-agency:${
+			agency || "all"
 		}-page:${page}`;
 		const cacheKey = keyword ? null : `people:${filterKey}`;
 
@@ -35,6 +49,7 @@ const getAllPeople = async (req, res) => {
 			limit,
 			fields: selectFields,
 		});
+		query.populate("agency", "name");
 		const [people, totalCount] = await Promise.all([query, countQuery]);
 
 		if (cacheKey) {
@@ -55,7 +70,7 @@ const getRandomPeople = async (req, res) => {
 		const ids = sampled.map((doc) => doc._id);
 		const people = await Person.find({
 			_id: { $in: ids },
-		});
+		}).populate("agency");
 
 		res.status(200).json(people);
 	} catch (err) {
@@ -65,7 +80,7 @@ const getRandomPeople = async (req, res) => {
 
 const getPersonById = async (req, res) => {
 	try {
-		const person = await Person.findById(req.params.id);
+		const person = await Person.findById(req.params.id).populate("agency");
 		if (!person)
 			return res.status(404).json({ message: "아티스트를 찾을 수 없습니다" });
 

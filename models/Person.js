@@ -11,6 +11,10 @@ const personSchema = new mongoose.Schema(
 		},
 		birthDate: { type: Number },
 		nationality: { type: String },
+		agency: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Agency",
+		},
 		tags: [String],
 		recentWork: [
 			{
