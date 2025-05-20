@@ -49,6 +49,7 @@ const getAllPeople = async (req, res) => {
 			limit,
 			fields: selectFields,
 		});
+		query.sort({ createdAt: -1 });
 		query.populate("agency", "name");
 		const [people, totalCount] = await Promise.all([query, countQuery]);
 

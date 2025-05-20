@@ -57,6 +57,7 @@ const getAllModels = async (req, res) => {
 			limit,
 			fields: selectFields,
 		});
+		query.sort({ createdAt: -1 });
 		query.populate("agency", "name");
 		const [models, totalCount] = await Promise.all([query, countQuery]);
 

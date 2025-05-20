@@ -54,6 +54,7 @@ const getAllPhotos = async (req, res) => {
 			limit,
 			fields: selectFields,
 		});
+		query.sort({ createdAt: -1 });
 		query
 			.populate("models", "_id name image")
 			.populate("people", "_id name image");
