@@ -7,7 +7,7 @@ const {
 
 const router = express.Router();
 
-router.post("/", upload.single("image"), uploadImage);
+router.post("/", upload.array("images"), uploadImage);
 router.post("/remove", removeImage);
 
 module.exports = router;
