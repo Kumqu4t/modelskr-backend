@@ -1,5 +1,6 @@
 const Agency = require("../models/Agency");
 const Model = require("../models/Model");
+const Person = require("../models/Person");
 const redis = require("../config/redis");
 const paginateQuery = require("../utils/paginateQuery");
 
@@ -48,6 +49,7 @@ const getAgencyById = async (req, res) => {
 		}
 
 		const models = await Model.find({ agency: agency._id });
+		const people = await Person.find({ agency: agency._id });
 
 		const etag = `${agency._id}-${agency.updatedAt.getTime()}`;
 		res.setHeader("ETag", etag);
@@ -59,6 +61,7 @@ const getAgencyById = async (req, res) => {
 		res.status(200).json({
 			...agency.toObject(),
 			models,
+			people,
 		});
 	} catch (err) {
 		console.error("Error in getAgencyById:", err);
