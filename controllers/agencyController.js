@@ -36,6 +36,7 @@ const getAllAgencies = async (req, res) => {
 			redis.setex(cacheKey, 7200, JSON.stringify({ agencies, totalCount }));
 		}
 
+		// console.log(agencies);
 		res.status(200).json({ agencies, totalCount });
 	} catch (err) {
 		res.status(500).json({ error: err.message });

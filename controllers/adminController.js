@@ -3,8 +3,18 @@ const User = require("../models/User");
 
 const clearCache = async (req, res) => {
 	try {
-		await redis.flushall();
-		res.status(200).json({ message: "Redis cache cleared" });
+		const keys = await redis.keys("*");
+		const keysToDelete = keys.filter(
+			(key) => !key.startsWith("visits:") && !key.startsWith("visited:")
+		);
+
+		if (keysToDelete.length > 0) {
+			await redis.del(keysToDelete);
+		}
+
+		res
+			.status(200)
+			.json({ message: "Redis cache cleared (excluding visit counts)" });
 	} catch (err) {
 		console.error("Redis 초기화 실패:", err);
 		res.status(500).json({ message: "Redis 초기화 실패" });
