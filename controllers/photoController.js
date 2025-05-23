@@ -8,6 +8,7 @@ const {
 	removeRecentWork,
 	updateRecentWork,
 } = require("../utils/recentWorkManager");
+const deleteCloudinaryImages = require("../utils/deleteCloudinaryImages");
 
 const updateRecentWorkForEntities = async (
 	model,
@@ -191,6 +192,13 @@ const deletePhoto = async (req, res) => {
 		const deletedPhoto = await Photo.findByIdAndDelete(req.params.id);
 		if (!deletedPhoto)
 			return res.status(404).json({ error: "사진을 찾을 수 없습니다" });
+
+		// Cloudinary 이미지 삭제
+		try {
+			await deleteCloudinaryImages(deletedPhoto.images);
+		} catch (err) {
+			console.error("Cloudinary 이미지 삭제 중 에러 발생:", err);
+		}
 
 		await removeRecentWork(Model, deletedPhoto.models, {
 			type: "photo",

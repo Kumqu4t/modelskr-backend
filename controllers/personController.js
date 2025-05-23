@@ -3,6 +3,7 @@ const Photo = require("../models/Photo");
 const Agency = require("../models/Agency");
 const redis = require("../config/redis");
 const paginateQuery = require("../utils/paginateQuery");
+const deleteCloudinaryImages = require("../utils/deleteCloudinaryImages");
 
 const getAllPeople = async (req, res) => {
 	try {
@@ -149,6 +150,13 @@ const deletePerson = async (req, res) => {
 		const deleted = await Person.findByIdAndDelete(req.params.id);
 		if (!deleted) {
 			return res.status(404).json({ message: "아티스트를 찾을 수 없습니다" });
+		}
+
+		// Cloudinary 이미지 삭제
+		try {
+			await deleteCloudinaryImages(deleted.image);
+		} catch (err) {
+			console.error("Cloudinary 이미지 삭제 중 에러 발생:", err);
 		}
 
 		const keys = await redis.keys("people*");

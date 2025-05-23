@@ -3,6 +3,7 @@ const Model = require("../models/Model");
 const Person = require("../models/Person");
 const redis = require("../config/redis");
 const paginateQuery = require("../utils/paginateQuery");
+const deleteCloudinaryImages = require("../utils/deleteCloudinaryImages");
 
 const getAllAgencies = async (req, res) => {
 	try {
@@ -111,6 +112,13 @@ const deleteAgency = async (req, res) => {
 		const deletedAgency = await Agency.findByIdAndDelete(req.params.id);
 		if (!deletedAgency) {
 			return res.status(404).json({ message: "에이전시를 찾을 수 없습니다" });
+		}
+
+		// Cloudinary 이미지 삭제
+		try {
+			await deleteCloudinaryImages(deletedAgency.logo);
+		} catch (err) {
+			console.error("Cloudinary 이미지 삭제 중 에러 발생:", err);
 		}
 
 		const keys = await redis.keys("agencies*");
