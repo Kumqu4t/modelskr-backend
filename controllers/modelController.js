@@ -12,7 +12,8 @@ const getAllModels = async (req, res) => {
 		const filter = {};
 		if (gender) filter.gender = gender;
 		if (keyword) {
-			filter.name = { $regex: keyword, $options: "i" };
+			const regex = new RegExp(keyword, "i");
+			filter.$or = [{ name: regex }, { aliases: regex }];
 		}
 		if (height) {
 			const [min, max] = height.split("-").map(Number);

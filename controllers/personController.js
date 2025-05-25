@@ -13,7 +13,8 @@ const getAllPeople = async (req, res) => {
 		if (gender) filter.gender = gender;
 		if (role) filter.role = role;
 		if (keyword) {
-			filter.name = { $regex: keyword, $options: "i" };
+			const regex = new RegExp(keyword, "i");
+			filter.$or = [{ name: regex }, { aliases: regex }];
 		}
 		if (agency) {
 			if (agency === "무소속") {

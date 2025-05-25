@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const personSchema = new mongoose.Schema(
 	{
 		name: { type: String, required: true },
+		aliases: { type: [String], default: [] },
 		gender: { type: String, enum: ["male", "female"] },
 		role: {
 			type: String,
